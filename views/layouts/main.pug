@@ -1,0 +1,15 @@
+doctype html
+html
+  head
+    title= title
+    link(rel="stylesheet", href="/css/bootstrap.css")
+    block styles
+  body
+    include ../partials/header
+     
+    main.container
+      block content
+ 
+    script(src="/js/app.js")
+    script(src="/js/bootstrap.js")
+    block scripts
