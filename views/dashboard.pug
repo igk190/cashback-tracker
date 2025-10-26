@@ -4,29 +4,22 @@ extends ./layouts/main
 
 block content
   .container.mt-5
+  
     if success_msg.length > 0
       .alert.alert-success= success_msg
 
     .row
-      .col-md-8
-        h2 Willkommen, #{user.username}!
-        .card.mt-4
-          .card-body
-            h5.card-title Ihre Informationen
-            p
-              strong Benutzername:
-              | #{user.username}
-            p
-              strong E-Mail:
-              | #{user.email}
-            p
-              strong Benutzer-ID:
-              | #{user.id}
-      .col-md-4
-        .card
-          .card-header Aktionen
-          .list-group.list-group-flush
-            a.list-group-item.list-group-item-action(href="/profile")
-              | Profil bearbeiten
-            a.list-group-item.list-group-item-action(href="/settings")
-              | Einstellungen
+        .col
+            p Placeholder button group
+        .col
+            p Placeholder + Add new offer button
+    
+    .row
+        .col
+            p placeholder card cashback received, 0.44, x offers completed 
+        .col
+            p Pending cashback, price, x offers pending  
+        .col
+            p available offers, 3.99, x offers available
+        .col 
+            p total percentage cashback received, 5.65, xx percent, 3/4 offers completed

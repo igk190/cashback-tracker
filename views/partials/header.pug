@@ -1,4 +1,23 @@
 header
+//- if user
+//-   nav.navbar.d-flex.bg-light.navbar-light
+//-     ul.navbar-nav.d-flex(style="list-style:none; gap: 1rem; width: 100%;")
+//-       li.nav-item
+//-         a.nav-link(href='/dashboard') Cashback Tracker
+//-       li.nav-item.ms-auto
+//-         a.nav-link(href='/logout') Logout
+if user 
+  nav.navbar.navbar-expand-md.bavbar-light.bg-light
+    div.container-fluid
+      div.navbar-collapse.collapse.w-100.order-1.order-md-0.dual-collapse2 
+        ul.navbar-nav.me-auto
+          li.nav-item
+            a.nav-link(href='/dashboard') Dashboard
+      div.navbar-collapse.collapse.w-100.order-3.dual-collapse2 
+        ul.navbar-nav.ms-auto
+          li.nav-item 
+            a.btn.btn-secondary(href='/logout') Logout
+else
   nav.navbar.navbar-expand-sm.bg-light.navbar-light
     ul.navbar-nav(style="list-style:none; display: flex; gap: 1rem;")
       li.nav-item

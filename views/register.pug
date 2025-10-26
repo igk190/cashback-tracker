@@ -8,8 +8,12 @@ block content
           .card-header
             h3 Register
           .card-body
-            //- if error_msg.length > 0
-            //-   .alert.alert-danger= error_msg
+            each msg in error_msg
+                .alert.alert-danger= msg
+            each msg in success_msg
+                .alert.alert-success= msg
+            if success_msg.length > 0
+                .alert.alert-success= success_msg
  
             form(action="/register" method="POST")
               .mb-3
