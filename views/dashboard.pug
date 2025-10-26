@@ -1,0 +1,32 @@
+extends ./layouts/main 
+
+//- TEMPORARY DASHBOARD CONTENT
+
+block content
+  .container.mt-5
+    if success_msg.length > 0
+      .alert.alert-success= success_msg
+
+    .row
+      .col-md-8
+        h2 Willkommen, #{user.username}!
+        .card.mt-4
+          .card-body
+            h5.card-title Ihre Informationen
+            p
+              strong Benutzername:
+              | #{user.username}
+            p
+              strong E-Mail:
+              | #{user.email}
+            p
+              strong Benutzer-ID:
+              | #{user.id}
+      .col-md-4
+        .card
+          .card-header Aktionen
+          .list-group.list-group-flush
+            a.list-group-item.list-group-item-action(href="/profile")
+              | Profil bearbeiten
+            a.list-group-item.list-group-item-action(href="/settings")
+              | Einstellungen

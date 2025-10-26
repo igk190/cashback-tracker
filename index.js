@@ -8,13 +8,19 @@ const __dirname = path.dirname(__filename);
 const app = express();
 
 app.use('/css', express.static(path.join(__dirname, 'node_modules/bootstrap/dist/css')));
+app.use('/js', express.static(path.join(__dirname, 'node_modules/bootstrap/dist/js')));
+
 
 
 app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, 'views'));
 
 app.get('/', (req, res) => {
-  res.render('index'); // renders index.pug
+  res.render('index'); 
+});
+
+app.get('/login', (req, res) => {
+  res.render('login'); 
 });
 
 app.listen(3000, () => {

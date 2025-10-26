@@ -1,0 +1,25 @@
+extends ./layouts/main
+
+block content
+  .container.mt-5
+    .row.justify-content-center
+      .col-md-6
+        .card
+          .card-header
+            h2 Login
+          .card-body
+
+            form(action="/login" method="POST")
+              .mb-3
+                label.form-label(for="username") Username
+                input.form-control(type="text" id="username" name="username" required)
+
+              .mb-3
+                label.form-label(for="password") Password
+                input.form-control(type="password" id="password" name="password" required)
+
+              button.btn.btn-primary.w-100(type="submit") Log in
+
+              .mt-3.text-center
+                p Don't have an account? 
+                    a(href="/register") Register instead

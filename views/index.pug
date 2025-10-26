@@ -1,7 +1,12 @@
-extends ./layouts/main.pug
+extends ./layouts/main
 
 block content
-    div.jumbotron.jumbotron-fluid.p-2.text-center
+    div.p-2.text-center
         div.container.p-5
             h1.display-4 Cashback Tracker
             p.lead Track and manage your cashback offers in one place
+
+            div.btn.group(role="group" aria-label="Login and register") 
+                button.btn.btn-primary.btn-lg.m-3(href="/login" type="button") Login
+                button.btn.btn-primary.btn-lg.m-3(href="/register" type="button") Register
+        
