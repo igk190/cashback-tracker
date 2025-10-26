@@ -10,8 +10,6 @@ const app = express();
 app.use('/css', express.static(path.join(__dirname, 'node_modules/bootstrap/dist/css')));
 app.use('/js', express.static(path.join(__dirname, 'node_modules/bootstrap/dist/js')));
 
-
-
 app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, 'views'));
 
@@ -21,6 +19,9 @@ app.get('/', (req, res) => {
 
 app.get('/login', (req, res) => {
   res.render('login'); 
+});
+app.get('/register', (req, res) => {
+  res.render('register'); 
 });
 
 app.listen(3000, () => {

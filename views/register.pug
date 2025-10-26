@@ -1,0 +1,33 @@
+extends ./layouts/main
+ 
+block content
+  .container.mt-5
+    .row.justify-content-center
+      .col-md-6
+        .card
+          .card-header
+            h3 Register
+          .card-body
+            //- if error_msg.length > 0
+            //-   .alert.alert-danger= error_msg
+ 
+            form(action="/register" method="POST")
+              .mb-3
+                label.form-label(for="username") Username
+                input.form-control(type="text" id="username" name="username" required)
+              .mb-3
+                label.form-label(for="name") Name
+                input.form-control(type="text" id="name" name="name" required)
+              .mb-3
+                label.form-label(for="email") E-Mail
+                input.form-control(type="email" id="email" name="email" required)
+              .mb-3
+                label.form-label(for="password") Password
+                input.form-control(type="password" id="password" name="password" required minlength="8")
+                .form-text Must be at least 8 characters
+ 
+              button.btn.btn-primary.w-100(type="submit") Register
+ 
+            .mt-3.text-center
+              p Already registered?
+                a(href="/login") Go to login
