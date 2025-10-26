@@ -1,25 +1,50 @@
 extends ./layouts/main 
 
-//- TEMPORARY DASHBOARD CONTENT
-
 block content
   .container.mt-5
   
     if success_msg.length > 0
       .alert.alert-success= success_msg
-
-    .row
-        .col
-            p Placeholder button group
-        .col
-            p Placeholder + Add new offer button
+            
     
-    .row
+    .row.g-2
+        h1 Statistics
+        .col-md-3
+            .card
+                .card-body 
+                    h3.card-title Cashback received
+                    h4.card-subtitle.mb-2.text-body-secondary EUR 0.99
+                    p.card-text 2 offers completed 
+        .col-md-3
+            .card
+                .card-body 
+                    h3.card-title Cashback pending
+                    h4.card-subtitle.mb-2.text-body-secondary EUR 14.99
+                    p.card-text 4 offers pending 
+        .col-md-3
+            .card
+                .card-body 
+                    h3.card-title Available offers
+                    h4.card-subtitle.mb-2.text-body-secondary EUR 13.35
+                    p.card-text 5 offers available 
+        .col-md-3
+            .card
+                .card-body 
+                    h3.card-title Total % received
+                    h4.card-subtitle.mb-2.text-body-secondary EUR 123.45 - 78%
+                    p.card-text 12/15 offers completed 
+    
+
+
+    .row.mb-3.mt-3.mb-3
+        .col.d-flex.justify-content-between.align-items-center
+            .btn-group(role="group" aria-label="Filtering buttons")
+                btn.btn.btn-secondary.m-1(type="button") Available 
+                btn.btn.btn-secondary.m-1(type="button") Uploaded 
+                btn.btn.btn-secondary.m-1(type="button") Pending 
+                btn.btn.btn-secondary.m-1(type="button") Confirmed 
+                btn.btn.btn-secondary.m-1(type="button") Received 
+            
+        .col-4
         .col
-            p placeholder card cashback received, 0.44, x offers completed 
-        .col
-            p Pending cashback, price, x offers pending  
-        .col
-            p available offers, 3.99, x offers available
-        .col 
-            p total percentage cashback received, 5.65, xx percent, 3/4 offers completed
+            btn.btn.btn-secondary.m-2.text-right(type="button") + Add new offer 
