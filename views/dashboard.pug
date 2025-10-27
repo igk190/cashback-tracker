@@ -104,13 +104,22 @@ block content
         .modal-dialog
             .modal-content
                 .modal-header
-                    h1.modal-title.fs-5#cashbackFormModal Modal title
+                    h1.modal-title.fs-5#cashbackFormModal Add a cashback offer
                     button.btn-close(type="button" data-bs-dismiss="modal" aria-label="Close")
-            .modal-body
-                p balalalalal
-            .modal-footer
-                button.btn.btn-secondary(type="button" data-bs-dismiss="modal") Close
-                button.btn.btn-primary(type="button") Save changes
+                .modal-body.bg-secondary-subtle
+                    form(action="POST")
+                        .mb-3 
+                            label.form-label(for="product-name") Product name 
+                            input.form-control(type="text" id="productName") 
+                        .mb-3 
+                            label.form-label(for="cashback-url") Cashback URL 
+                            input.form-control(type="text" id="cashbackURL")
+                        .mb-3 
+                            label.form-label(for="photo-url") Product photo URL 
+                            input.form-control(type="text" id="photoURL")                           
+                .modal-footer
+                    button.btn.btn-secondary(type="button" data-bs-dismiss="modal") Close
+                    button.btn.btn-primary(type="button") Save changes
 
 
 
