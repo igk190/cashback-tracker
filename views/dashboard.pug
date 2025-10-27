@@ -34,8 +34,6 @@ block content
                     h4.card-subtitle.mb-2.text-body-secondary EUR 123.45 - 78%
                     p.card-text 12/15 offers completed 
     
-
-
     .row.mb-3.mt-3
         .col.d-flex.justify-content-between.align-items-center
             .btn-group(role="group" aria-label="Filtering buttons")
@@ -43,43 +41,77 @@ block content
                 btn.btn.btn-secondary.m-1(type="button") Uploaded 
                 btn.btn.btn-secondary.m-1(type="button") Pending 
                 btn.btn.btn-secondary.m-1(type="button") Confirmed 
-                btn.btn.btn-secondary.m-1(type="button") Received 
+                btn.btn.btn-secondary.m-1(type="button") Completed 
             
         .col-4
         .col
-            btn.btn.btn-secondary.m-2.text-right(type="button") + Add new offer
+            btn.btn.btn-secondary.m-2.text-right(type="button", data-bs-toggle="modal", data-bs-target="#cashbackFormModal") + Add new offer
 
     .row.m-2 
         .card.mb-6.text-bg.w-100.h-100
             .row.g-0
                 .col-md-4
                     img.img-fluid.rounded-start(src="https://mdbcdn.b-cdn.net/wp-content/uploads/2020/06/vertical.webp" alt="Trendy Pants and Shoes" style="height: 350px;")
-                .col-md-8   
+                .col-md-6   
                     .card-body
-                        h5.card-title Kinder Pengui 
-                        p.card-text 1.45 EUR 
-                        p.card-text REWE
-                        p.card-text 22.10.2025-31.10.2025
-                        p.card-text Gekauft am: 22.10.2025
-                        p.card-text Mit Aktionssticker
-                        p.card-text Referenznummer
-                        p.card-text dsffds
-
-    .row.m-2
+                        .d-flex.justify-content-between
+                            h5.card-title Kinder Pengui 
+                            p.mb-0 Status: Uploaded
+                        p.card-text
+                            i.bi.bi-currency-euro
+                            span 1.45 EUR 
+                        p.card-text
+                            i.bi.bi-pin.map 
+                            span REWE
+                        p.card-text 
+                            i.bi.bi-calendar3
+                            span  22.10.2025-31.10.2025
+                        p.card-text
+                            i.bi-bi-receipt 
+                            span Purchased on: 22.10.2025
+                        .card-text 
+                            p Requirements: Mit Aktionssticker
+                        p.card-text Reference number 
+                        
+    .row.m-2 
         .card.mb-6.text-bg.w-100.h-100
             .row.g-0
                 .col-md-4
                     img.img-fluid.rounded-start(src="https://mdbcdn.b-cdn.net/wp-content/uploads/2020/06/vertical.webp" alt="Trendy Pants and Shoes" style="height: 350px;")
-                .col-md-8   
+                .col-md-6   
                     .card-body
-                        h5.card-title Kinder Pengui 
-                        p.card-text 1.45 EUR 
-                        p.card-text REWE
-                        p.card-text 22.10.2025-31.10.2025
-                        p.card-text Gekauft am: 22.10.2025
-                        p.card-text Mit Aktionssticker
-                        p.card-text Referenznummer
-                        p.card-text dsffds
+                        .d-flex.justify-content-between
+                            h5.card-title Kinder Pengui 
+                            p.mb-0 Status: Uploaded
+                        p.card-text
+                            i.bi.bi-currency-euro
+                            span 1.45 EUR 
+                        p.card-text
+                            i.bi.bi-pin.map 
+                            span REWE
+                        p.card-text 
+                            i.bi.bi-calendar3
+                            span  22.10.2025-31.10.2025
+                        p.card-text
+                            i.bi-bi-receipt 
+                            span Purchased on: 22.10.2025
+                        .card-text 
+                            p Requirements: Mit Aktionssticker
+                        p.card-text Reference number 
+
+
+    #cashbackFormModal.modal.fade(tabindex="-1" aria-labelledby="cashbackFormModal" aria-hidden="true")
+        .modal-dialog
+            .modal-content
+                .modal-header
+                    h1.modal-title.fs-5#cashbackFormModal Modal title
+                    button.btn-close(type="button" data-bs-dismiss="modal" aria-label="Close")
+            .modal-body
+                p balalalalal
+            .modal-footer
+                button.btn.btn-secondary(type="button" data-bs-dismiss="modal") Close
+                button.btn.btn-primary(type="button") Save changes
+
 
 
 //-  https://mdbootstrap.com/docs/standard/extended/horizontal-cards/
