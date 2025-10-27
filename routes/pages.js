@@ -17,12 +17,11 @@ router.post('/cashback', async (req, res) => {
   try {
     await addCashbackOffer(req.body);
     req.flash('success_msg', 'Cashback offer added!');
-    res.redirect('/dashboard');
   } catch (err) {
     console.error(err);
     req.flash('error_msg', 'Error adding cashback offer.');
-    //res.redirect('/dashboard');
   }
+  res.redirect('/dashboard'); // always redirect, no modal or prefill
 });
 
 export default router;

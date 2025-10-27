@@ -107,30 +107,30 @@ block content
                     h1.modal-title.fs-5#cashbackFormTitle Add a cashback offer
                     button.btn-close(type="button" data-bs-dismiss="modal" aria-label="Close")
                 .modal-body.bg-secondary-subtle
-                    form(action="POST")
+                    form(action="/cashback" method="POST" id="cashback-form")
                         .mb-3 
                             label.form-label(for="product-name") Product name 
-                            input.form-control(type="text" id="product-name" name="product-name" placeholder="Kinder Pengui") 
+                            input.form-control(type="text" id="product-name" name="product_name" placeholder="Kinder Pengui") 
                         .mb-3 
                             label.form-label(for="cashback-url") Cashback URL 
-                            input.form-control(type="text" id="cashback-url" name="cashback-url")
+                            input.form-control(type="text" id="cashback-url" name="cashback_url")
                         .mb-3 
                             label.form-label(for="photo-url") Product photo URL 
-                            input.form-control(type="text" id="photo-url" name="cashback-url")
+                            input.form-control(type="text" id="photo-url" name="photo_url")
                         .row.mb-3 
                             .col
                                 label.form-label(for="start-date") Start date 
-                                input.form-control(type="date" id="start-date" placeholder="01.10.2025" name="start-date")
+                                input.form-control(type="date" id="start-date" placeholder="01.10.2025" name="start_date")
                             .col
                                 label.form-label(for="end-date") End date
-                                input.form-control(type="date" id="end-date" placeholder="20.10.2025" name="end-date")
+                                input.form-control(type="date" id="end-date" placeholder="20.10.2025" name="end_date")
                         .row.mb-3 
                             .col
                                 label.form-label(for="price") Price
                                 input.form-control(type="text" id="price" placeholder="4.50" name="price")
                             .col
                                 label.form-label(for="cashback-amount") Cashback
-                                input.form-control(type="text" id="cashback-amount" placeholder="4.50" name="cashback-amount")
+                                input.form-control(type="text" id="cashback-amount" placeholder="4.50" name="cashback_amount")
                         .mb-3 
                             label.form-label(for="store") Where to buy
                             input.form-control(type="text" id="store" placeholder="Kaufland, REWE" name="store")
@@ -145,8 +145,8 @@ block content
                                 option Confirmed
                                 option Completed           
                 .modal-footer
-                    button.btn.btn-secondary(type="button" data-bs-dismiss="modal") Close
-                    button.btn.btn-primary(type="button") Save changes
+                    button.btn.btn-secondary(type="button" ) Close
+                    button.btn.btn-primary(type="submit" form="cashback-form") Save cashback offer
 
 
     script. 
