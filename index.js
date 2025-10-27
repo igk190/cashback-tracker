@@ -10,6 +10,7 @@ import dotenv from 'dotenv';
 //import pokemonRouter from './routes/pokemon.js';
 import pagesRouter from './routes/pages.js';
 import authRouter from './routes/auth.js';
+
 import { optAuthMiddleware } from './middleware/auth.js';
 
 const __filename = fileURLToPath(import.meta.url);

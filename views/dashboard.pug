@@ -4,11 +4,12 @@ block content
   .container.mt-5
   
     if success_msg.length > 0
-      .alert.alert-success= success_msg
+      .alert.alert-success#flash-msg= success_msg
             
     
+    h1 Statistics
     .row.g-2
-        h1 Statistics
+        
         .col-md-3
             .card
                 .card-body 
@@ -37,15 +38,14 @@ block content
     .row.mb-3.mt-3
         .col.d-flex.justify-content-between.align-items-center
             .btn-group(role="group" aria-label="Filtering buttons")
-                btn.btn.btn-secondary.m-1(type="button") Available 
-                btn.btn.btn-secondary.m-1(type="button") Uploaded 
-                btn.btn.btn-secondary.m-1(type="button") Pending 
-                btn.btn.btn-secondary.m-1(type="button") Confirmed 
-                btn.btn.btn-secondary.m-1(type="button") Completed 
+                button.btn.btn-secondary.m-1(type="button") Available 
+                button.btn.btn-secondary.m-1(type="button") Uploaded
+                button.btn.btn-secondary.m-1(type="button") Confirmed 
+                button.btn.btn-secondary.m-1(type="button") Completed 
             
         .col-4
         .col
-            btn.btn.btn-secondary.m-2.text-right(type="button", data-bs-toggle="modal", data-bs-target="#cashbackFormModal") + Add new offer
+            button.btn.btn-secondary.m-2.text-right(type="button", data-bs-toggle="modal", data-bs-target="#cashbackFormModal") + Add new offer
 
     .row.m-2 
         .card.mb-6.text-bg.w-100.h-100
@@ -104,23 +104,55 @@ block content
         .modal-dialog
             .modal-content
                 .modal-header
-                    h1.modal-title.fs-5#cashbackFormModal Add a cashback offer
+                    h1.modal-title.fs-5#cashbackFormTitle Add a cashback offer
                     button.btn-close(type="button" data-bs-dismiss="modal" aria-label="Close")
                 .modal-body.bg-secondary-subtle
                     form(action="POST")
                         .mb-3 
                             label.form-label(for="product-name") Product name 
-                            input.form-control(type="text" id="productName") 
+                            input.form-control(type="text" id="product-name" name="product-name" placeholder="Kinder Pengui") 
                         .mb-3 
                             label.form-label(for="cashback-url") Cashback URL 
-                            input.form-control(type="text" id="cashbackURL")
+                            input.form-control(type="text" id="cashback-url" name="cashback-url")
                         .mb-3 
                             label.form-label(for="photo-url") Product photo URL 
-                            input.form-control(type="text" id="photoURL")                           
+                            input.form-control(type="text" id="photo-url" name="cashback-url")
+                        .row.mb-3 
+                            .col
+                                label.form-label(for="start-date") Start date 
+                                input.form-control(type="date" id="start-date" placeholder="01.10.2025" name="start-date")
+                            .col
+                                label.form-label(for="end-date") End date
+                                input.form-control(type="date" id="end-date" placeholder="20.10.2025" name="end-date")
+                        .row.mb-3 
+                            .col
+                                label.form-label(for="price") Price
+                                input.form-control(type="text" id="price" placeholder="4.50" name="price")
+                            .col
+                                label.form-label(for="cashback-amount") Cashback
+                                input.form-control(type="text" id="cashback-amount" placeholder="4.50" name="cashback-amount")
+                        .mb-3 
+                            label.form-label(for="store") Where to buy
+                            input.form-control(type="text" id="store" placeholder="Kaufland, REWE" name="store")
+                        .mb-3 
+                            label.form-label(for="conditions") Conditions 
+                            input.form-control(type="text" id="conditions" placeholder="Mit Aktionssticker, EAN 12345678" name="conditions")
+                        .mb-3 
+                            label.form-label(for="status") Status  
+                            select.custom-select.custom-select-sm.m-2
+                                option Available 
+                                option Uploaded
+                                option Confirmed
+                                option Completed           
                 .modal-footer
                     button.btn.btn-secondary(type="button" data-bs-dismiss="modal") Close
                     button.btn.btn-primary(type="button") Save changes
 
 
+    script. 
+        setTimeout(() => {
+            const msg = document.getElementById("flash-msg");
+            if (msg) msg.style.display = 'none';
+        }, 3000);
 
 //-  https://mdbootstrap.com/docs/standard/extended/horizontal-cards/

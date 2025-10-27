@@ -62,7 +62,6 @@ router.post('/login', async (req, res) => {                 // POST FORM
   let conn;
   try {
     conn = await pool.getConnection();
-
     const users = await conn.query('SELECT * FROM user WHERE username = ?', [username] );
 
     if (users.length === 0) {
@@ -92,7 +91,7 @@ router.post('/login', async (req, res) => {                 // POST FORM
       maxAge: 24 * 60 * 60 * 1000
     });
 
-    req.flash('success_msg', 'You"re logged in!');
+    req.flash("success_msg", "You're logged in!");
     res.redirect('/dashboard');
 
   } catch (error) {
