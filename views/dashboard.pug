@@ -47,15 +47,25 @@ block content
         .col
             button.btn.btn-secondary.m-2.text-right(type="button", data-bs-toggle="modal", data-bs-target="#cashbackFormModal") + Add new offer
 
-    if !offers || offers.length === 0 || !Array.isArray(offers)
+    
+    - const cashbackOffers = allCashbackOffers || []
+    
+    if cashbackOffers.length === 0
         .row.m-2 
             .col.text-center 
                 p No cashback offers here yet.
-    else 
-        each item in offers
-        p item.product_name
-         
-
+    else
+        each item in cashbackOffers
+            .row.m-2 
+            .card.mb-3.p-3
+                h5= item.product_name
+                p Status: #{item.status || 'N/A'}
+                if item.photo_url
+                    img(src=item.photo_url, width="200", style="max-height:150px; object-fit:cover;")
+                p Cashback: #{item.cashback_amount} EUR
+                p Store: #{item.store}
+                if item.cashback_url
+                    a(href=item.cashback_url, target="_blank") Visit Offer
 
     #cashbackFormModal.modal.fade(tabindex="-1" aria-labelledby="cashbackFormModal" aria-hidden="true")     
         .modal-dialog
@@ -110,7 +120,7 @@ block content
         setTimeout(() => {
             const msg = document.getElementById("flash-msg");
             if (msg) msg.style.display = 'none';
-        
+            
         }, 3000);
 
 //-  https://mdbootstrap.com/docs/standard/extended/horizontal-cards/

@@ -5,20 +5,15 @@ import pool from '../config/database.js';
 const router = express.Router();
 
 router.get('/', async (req, res) => {
-    const conn = await pool.getConnection();
-    const offers = await conn.query('SELECT * FROM cashback_offer');
-    console.log("OFFERS", offers);
-
-    conn.release();
-      res.render('index'); 
+    res.render('index'); 
 
 });
 
 router.get('/dashboard', async (req, res) => {
   try {
     const conn = await pool.getConnection();
-    const offers = await conn.query('SELECT * FROM cashback_offer');
-    console.log("OFFERS", offers);
+    const allCashbackOffers = await conn.query('SELECT * FROM cashback_offer');
+    console.log("OFFERS", allCashbackOffers);
     conn.release();
 
     // const offers = [
@@ -36,11 +31,11 @@ router.get('/dashboard', async (req, res) => {
     //     purchased_on: null
     //   }
     // ];
-    res.render('dashboard', { offers, success_msg: req.flash('success_msg') });
+    res.render('dashboard', { allCashbackOffers, success_msg: req.flash('success_msg') });
   } catch (err) {
     console.error('Error:', err);
     req.flash('error_msg', 'Error loading offers.');
-    res.render('dashboard', { offers: [], success_msg: req.flash('success_msg') });
+    res.render('dashboard', { allCashbackOffers: [], success_msg: req.flash('success_msg') });
   }
 });
 
