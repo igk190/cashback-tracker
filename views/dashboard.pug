@@ -55,18 +55,19 @@ block content
             .col.text-center 
                 p No cashback offers here yet.
     else
-        each item in cashbackOffers
-            .row.m-2 
-            .card.mb-3.p-3
-                h5= item.product_name
-                p Status: #{item.status || 'N/A'}
-                if item.photo_url
-                    img(src=item.photo_url, width="200", style="max-height:150px; object-fit:cover;")
-                p Cashback: #{item.cashback_amount} EUR
-                p Store: #{item.store}
-                p Gekauft am: #{item.purchase_date}
-                if item.cashback_url
-                    a(href=item.cashback_url, target="_blank") Visit Offer
+        .row.m-2
+            each item in cashbackOffers
+                .col.md-4
+                    .card.mb-3.p-3
+                        h5= item.product_name
+                        p Status: #{item.status || 'N/A'}
+                        if item.photo_url
+                            img(src=item.photo_url, width="200", style="max-height:150px; object-fit:cover;")
+                        p Cashback: #{item.cashback_amount} EUR
+                        p Store: #{item.store}
+                        p Gekauft am: #{item.purchase_date}
+                        if item.cashback_url
+                            a(href=item.cashback_url, target="_blank") Visit Offer
                 
 
     #cashbackFormModal.modal.fade(tabindex="-1" aria-labelledby="cashbackFormModal" aria-hidden="true")     
