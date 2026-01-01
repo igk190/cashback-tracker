@@ -59,17 +59,28 @@ block content
             each item in cashbackOffers
                 .col.md-4
                     .card.mb-3.p-3
-                        h5= item.product_name
-                        p Status: #{item.status || 'N/A'}
+                        .row
+                            .col-8
+                                h5= item.product_name
+                            .col-4
+                                span.badge.rounded-pill.text-bg-secondary #{item.status || 'N/A'}
                         if item.photo_url
                             img(src=item.photo_url, width="200", style="max-height:150px; object-fit:cover;")
                         p Cashback: #{item.cashback_amount} EUR
                         p Store: #{item.store}
-                        p Gekauft am: #{item.purchase_date}
+                        if item.start_date || item.end_date
+                            .row
+                                .col-3
+                                    p From:
+                                .col-9 
+                                    p #{new Date(item.start_date).toLocaleDateString('en-US')} - #{new Date(item.end_date).toLocaleDateString('en-US')} 
+                        if item.purchase_date 
+                            Gekauft am: #{new Date(item.purchase_date).toLocaleDateString('en-US')}
                         if item.cashback_url
-                            a(href=item.cashback_url, target="_blank") Visit Offer
+                            a(href=item.cashback_url, target="_blank")
+                                p.text-center(style="font-size: 0.8rem") Visit offer 
+                                    i.bi.bi-box-arrow-up-right.mb-2(style="font-size: 0.8rem; color: cornflowerblue;")
                 
-
     #cashbackFormModal.modal.fade(tabindex="-1" aria-labelledby="cashbackFormModal" aria-hidden="true")     
         .modal-dialog
             .modal-content

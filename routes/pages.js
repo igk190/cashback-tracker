@@ -13,7 +13,7 @@ router.get('/dashboard', async (req, res) => {
   try {
     const conn = await pool.getConnection();
     const allCashbackOffers = await conn.query('SELECT * FROM cashback_offer');
-    console.log("OFFERS", allCashbackOffers);
+    console.log("OFFERS", allCashbackOffers[3]);
     conn.release();
 
     // const offers = [
