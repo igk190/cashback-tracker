@@ -16,7 +16,7 @@ CREATE TABLE cashback_offer (
 );
 
 
-CREATE TABLE users (
+CREATE TABLE user (
   id INT(11) NOT NULL AUTO_INCREMENT,
   username VARCHAR(100) NOT NULL UNIQUE,
   name VARCHAR(255) NOT NULL,
