@@ -18,8 +18,11 @@ block content
             .card
                 .card-body 
                     h3.card-title Cashback pending
-                    h4.card-subtitle.mb-2.text-body-secondary EUR 14.99
-                    p.card-text 4 offers pending 
+                    h4.card-subtitle.mb-2.text-body-secondary #{sum_pending} €
+                    if total_offers_pending === 1
+                        p.card-text #{total_offers_pending} offer pending
+                    else 
+                        p.card-text #{total_offers_pending} offers pending
         .col-md-3
             .card
                 .card-body 
