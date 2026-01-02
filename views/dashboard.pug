@@ -7,14 +7,13 @@ block content
       .alert.alert-success#flash-msg= success_msg
     
     h1 Statistics
-    .row.g-2
-        
+    .row.g-2    
         .col-md-3
             .card
                 .card-body 
                     h3.card-title Cashback received
-                    h4.card-subtitle.mb-2.text-body-secondary EUR 0.99
-                    p.card-text 2 offers completed 
+                    h4.card-subtitle.mb-2.text-body-secondary #{total_cashback_sum} €
+                    p.card-text #{total_offers_completed} offers completed 
         .col-md-3
             .card
                 .card-body 
@@ -66,16 +65,17 @@ block content
                                 span.badge.rounded-pill.text-bg-secondary #{item.status || 'N/A'}
                         if item.photo_url
                             img(src=item.photo_url, width="200", style="max-height:150px; object-fit:cover;")
-                        p Cashback: #{item.cashback_amount} EUR
+                        if item.cashback_amount
+                            p Cashback: #{item.cashback_amount} €
                         p Store: #{item.store}
                         if item.start_date || item.end_date
                             .row
-                                .col-3
+                                .col-4
                                     p From:
-                                .col-9 
+                                .col-8 
                                     p #{new Date(item.start_date).toLocaleDateString('en-US')} - #{new Date(item.end_date).toLocaleDateString('en-US')} 
                         if item.purchase_date 
-                            Gekauft am: #{new Date(item.purchase_date).toLocaleDateString('en-US')}
+                            p Gekauft am: #{new Date(item.purchase_date).toLocaleDateString('en-US')}
                         if item.cashback_url
                             a(href=item.cashback_url, target="_blank")
                                 p.text-center(style="font-size: 0.8rem") Visit offer 

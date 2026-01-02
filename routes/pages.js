@@ -16,22 +16,20 @@ router.get('/dashboard', async (req, res) => {
     console.log("OFFERS", allCashbackOffers[3]);
     conn.release();
 
-    // const offers = [
-    //   {
-    //     id: 1,
-    //     product_name: 'Test Pokemon',
-    //     photo_url: 'https://via.placeholder.com/150',
-    //     status: 'Available',
-    //     cashback_amount: '3.49',
-    //     store: 'Kaufland',
-    //     start_date: '2025-10-27',
-    //     end_date: '2025-10-31',
-    //     conditions: null,
-    //     cashback_url: 'https://example.com',
-    //     purchased_on: null
-    //   }
-    // ];
-    res.render('dashboard', { allCashbackOffers, success_msg: req.flash('success_msg') });
+    let total_cashback_sum = 0;
+    let total_offers_completed = 0;
+
+    for (let index in allCashbackOffers){
+      if (allCashbackOffers[index].status === "Completed" ) {
+        total_cashback_sum += parseFloat(allCashbackOffers[index].cashback_amount);
+ 
+        total_offers_completed += 1;
+      }
+    }
+
+    
+
+    res.render('dashboard', { allCashbackOffers, total_cashback_sum, total_offers_completed, success_msg: req.flash('success_msg') });
   } catch (err) {
     console.error('Error:', err);
     req.flash('error_msg', 'Error loading offers.');
@@ -51,3 +49,6 @@ router.post('/cashback', async (req, res) => {
 });
 
 export default router;
+
+
+// console.log(typeof allCashbackOffers[index].cashback_amount ); // string! Returned as string, parseFloat
