@@ -37,6 +37,22 @@ function getCashbackPendingCardData(allCashbackOffers) {
   return [sum_pending, total_offers_pending];
 }
 
+function getAvailableOfferCardData(allCashbackOffers) {
+  let availableOfferTotalValue = 0;
+  let availableOffers = 0;
+
+  for (let i in allCashbackOffers) {
+    if (allCashbackOffers[i].status === 'Available') {
+      availableOffers += 1;
+      if (allCashbackOffers[i].cashback_amount) { // if there is a cashback amount, sum it
+        availableOfferTotalValue += parseFloat(allCashbackOffers[i].cashback_amount);
+      }
+    }    
+  }
+
+  return [availableOfferTotalValue, availableOffers];
+}
+
 // --------
 
 router.get('/dashboard', async (req, res) => {
@@ -48,11 +64,13 @@ router.get('/dashboard', async (req, res) => {
     
     let [total_cashback_sum, total_offers_completed] = getCompletedCardData(allCashbackOffers); // 'Cashback received' card
     let [sum_pending, total_offers_pending] = getCashbackPendingCardData(allCashbackOffers); // 'Cashback pending' card
+    let [availableOfferTotalValue, availableOffers] = getAvailableOfferCardData(allCashbackOffers);
 
     res.render('dashboard', { 
       allCashbackOffers, 
       total_cashback_sum, total_offers_completed,
       sum_pending, total_offers_pending,
+      availableOfferTotalValue, availableOffers,
       success_msg: req.flash('success_msg') });
   } catch (err) {
     console.error('Error:', err);
@@ -76,3 +94,4 @@ export default router;
 
 
 // console.log(typeof allCashbackOffers[index].cashback_amount ); // string! Returned as string, use parseFloat
+// cashback_amount shouldn't be required on the form, often you only know post-purchase how much it cost 
