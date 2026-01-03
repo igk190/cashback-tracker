@@ -9,68 +9,80 @@ router.get('/', async (req, res) => {
 
 });
 
-// -------- GET CARDS DATA FOR DASH --------
+// -------- GET DATA FOR STATISTICS CARDS --------
 
 function getCompletedCardData(allCashbackOffers) {
-  let total_cashback_sum = 0;
-  let total_offers_completed = 0;
 
-  for (let index in allCashbackOffers){
-    if (allCashbackOffers[index].status === "Completed" ) {
-      total_cashback_sum += parseFloat(allCashbackOffers[index].cashback_amount);
-      total_offers_completed += 1;
-    }
-  }
-  return [total_cashback_sum, total_offers_completed];
+  const completedArr = allCashbackOffers.filter(o => o.status === "Completed");
+  const completedCount = completedArr.length;
+  const completedSum = completedArr.reduce((sum, o) => sum + (parseFloat(o.cashback_amount) || 0), 0);
+
+  return [completedCount, completedSum];
 }
 
-function getCashbackPendingCardData(allCashbackOffers) {
-  let sum_pending = 0;
-  let total_offers_pending = 0;
+function getCashbackConfirmedCardData(allCashbackOffers) {
 
-  for (let index in allCashbackOffers) {
-    if (allCashbackOffers[index].status === 'Confirmed') {
-      sum_pending += parseFloat(allCashbackOffers[index].cashback_amount);
-      total_offers_pending += 1;
-    }
-  }
-  return [sum_pending, total_offers_pending];
+  const confirmedArr = allCashbackOffers.filter(o => o.status === "Confirmed");
+  const confirmedCount = confirmedArr.length;
+  const confirmedSum = confirmedArr.reduce((sum, o) => sum + (parseFloat(o.cashback_amount) || 0), 0);
+  
+  return [confirmedCount, confirmedSum];
 }
 
 function getAvailableOfferCardData(allCashbackOffers) {
-  let availableOfferTotalValue = 0;
-  let availableOffers = 0;
 
-  for (let i in allCashbackOffers) {
-    if (allCashbackOffers[i].status === 'Available') {
-      availableOffers += 1;
-      if (allCashbackOffers[i].cashback_amount) { // if there is a cashback amount, sum it
-        availableOfferTotalValue += parseFloat(allCashbackOffers[i].cashback_amount);
-      }
-    }    
-  }
-
-  return [availableOfferTotalValue, availableOffers];
+  const availableArr = allCashbackOffers.filter(o => o.status === "Available");
+  const availableCount = availableArr.length;
+  const availableSum = availableArr.reduce((sum, o) => sum + (parseFloat(o.cashback_amount) || 0), 0);
+  
+  return [availableCount, availableSum];
 }
 
-// --------
+function getPurchasedData(allCashbackOffers) {
+  
+  const totalPurchasedArray = allCashbackOffers.filter(o => o.status === "Purchased");
+  const purchasedOffers = totalPurchasedArray.length;
+  const purchasedOffersTotalValue = totalPurchasedArray.reduce((sum, o) => sum + (o.cashback_amount ? parseFloat(o.cashback_amount) : 0 ), 0);
+  
+  return [purchasedOffers, purchasedOffersTotalValue];
+}
+
+function getUploadedData(allCashbackOffers) {
+  
+  const totalUploadedArray = allCashbackOffers.filter(o => o.status === "Uploaded");
+  const uploadedOffers = totalUploadedArray.length;
+
+  const uploadedOffersTotalValue = totalUploadedArray.reduce((sum, o) => sum + (o.cashback_amount ? parseFloat(o.cashback_amount) : 0), 0 );
+
+  return [uploadedOffers, uploadedOffersTotalValue];
+}
+
+// ----------------
+
 
 router.get('/dashboard', async (req, res) => {
   try {
     const conn = await pool.getConnection();
     const allCashbackOffers = await conn.query('SELECT * FROM cashback_offer');
-    console.log("OFFERS", allCashbackOffers[3]);
     conn.release();
     
-    let [total_cashback_sum, total_offers_completed] = getCompletedCardData(allCashbackOffers); // 'Cashback received' card
-    let [sum_pending, total_offers_pending] = getCashbackPendingCardData(allCashbackOffers); // 'Cashback pending' card
-    let [availableOfferTotalValue, availableOffers] = getAvailableOfferCardData(allCashbackOffers);
+    let [availableCount, availableSum] = getAvailableOfferCardData(allCashbackOffers);
+    let [confirmedCount, confirmedSum] = getCashbackConfirmedCardData(allCashbackOffers); // 'Cashback confirmed' card
+    let [completedCount, completedSum] = getCompletedCardData(allCashbackOffers); // 'Cashback received' card
+    let [purchasedOffers, purchasedOffersTotalValue] = getPurchasedData(allCashbackOffers);
+    let [uploadedOffers, uploadedOffersTotalValue] = getUploadedData(allCashbackOffers);
+    
 
     res.render('dashboard', { 
       allCashbackOffers, 
-      total_cashback_sum, total_offers_completed,
-      sum_pending, total_offers_pending,
-      availableOfferTotalValue, availableOffers,
+
+      availableSum, availableCount,
+      purchasedOffers, purchasedOffersTotalValue,
+      uploadedOffers, uploadedOffersTotalValue,
+
+      confirmedSum, confirmedCount,
+      completedSum, completedCount,
+
       success_msg: req.flash('success_msg') });
   } catch (err) {
     console.error('Error:', err);
@@ -95,3 +107,4 @@ export default router;
 
 // console.log(typeof allCashbackOffers[index].cashback_amount ); // string! Returned as string, use parseFloat
 // cashback_amount shouldn't be required on the form, often you only know post-purchase how much it cost 
+// use xxSum and xxCount next time.
