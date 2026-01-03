@@ -13,7 +13,7 @@ block content
                 .card-body 
                     h3.card-title Cashback completed
                     h4.card-subtitle.mb-2.text-body-secondary #{completedSum} €
-                    p.card-text #{completedCount} offers completed 
+                    p.card-text #{completedCount}/#{teilgenommenCount} offers completed 
         .col-md-3
             .card
                 .card-body 
@@ -33,8 +33,8 @@ block content
             .card
                 .card-body 
                     h3.card-title Total % received
-                    h4.card-subtitle.mb-2.text-body-secondary 45%
-                    p.card-text #{totalNumOffersPending}/#{totalOffersTeilgenommen} offers completed 
+                    h4.card-subtitle.mb-2.text-body-secondary #{completedCount / teilgenommenCount * 100}%
+                    p.card-text #{teilgenommenCount - completedCount} offers pending 
     
     .row.mb-3.mt-3
         .col.d-flex.justify-content-between.align-items-center
