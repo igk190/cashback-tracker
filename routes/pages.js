@@ -1,13 +1,15 @@
 import express from 'express';
 import { addCashbackOffer } from '../models/cashback.js';
 import pool from '../config/database.js';
+import flash from 'connect-flash';
 
 const router = express.Router();
 
 router.get('/', async (req, res) => {
     res.render('index'); 
-
 });
+
+router.use(flash());
 
 // -------- GET DATA FOR STATISTICS CARDS --------
 
@@ -91,6 +93,8 @@ router.get('/dashboard', async (req, res) => {
       completedCount, completedSum,
 
       teilgenommenCount, teilgenommenSum,
+
+
       success_msg: req.flash('success_msg') });
   } catch (err) {
     console.error('Error:', err);
@@ -113,5 +117,13 @@ router.post('/cashback', async (req, res) => {
 export default router;
 
 
-// console.log(typeof allCashbackOffers[index].cashback_amount ); // string! Returned as string, use parseFloat
-// cashback_amount shouldn't be required on the form, often you only know post-purchase how much it cost 
+/* 
+Learnings
+
+1. console.log(typeof allCashbackOffers[index].cashback_amount ); // string! Returned as string, use parseFloat
+2. cashback_amount shouldn't be required on the form, often you only know post-purchase how much it cost 
+3. write custom attributes if they start with data-*. Ex: <article id="flying-cars"... 
+Then access all attr of this el through data-columns, data-index-numbers, etc. 
+
+*/
+
