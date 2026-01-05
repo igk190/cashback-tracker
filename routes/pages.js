@@ -68,6 +68,24 @@ function getTotalOffersTeilgenommen(allCashbackOffers) {
 
 // ----------------
 
+router.get('/available', async (req, res) => {
+  try {
+    const conn = await pool.getConnection();
+    const allAvailableOffers = await conn.query('SELECT * FROM cashback_offer where status = "Available"');
+    conn.release();
+
+    res.render('dashboard',  {
+
+    })
+  } catch (err) {
+      console.error('Error filtering "Available" offers:', err);
+      res.render('dashboard', { 
+        allCashbackOffers: [], 
+        success_msg: req.flash('success_msg') 
+      });
+
+  } // end catch
+});
 
 router.get('/dashboard', async (req, res) => {
   try {
@@ -95,7 +113,8 @@ router.get('/dashboard', async (req, res) => {
       teilgenommenCount, teilgenommenSum,
 
 
-      success_msg: req.flash('success_msg') });
+      success_msg: req.flash('success_msg') 
+    });
   } catch (err) {
     console.error('Error:', err);
     req.flash('error_msg', 'Error loading offers.');

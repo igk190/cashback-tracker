@@ -141,22 +141,35 @@ block content
 
 
     script. 
+        window.allCashbackOffers = !{JSON.stringify(allCashbackOffers)};
+
         setTimeout(() => {
             const msg = document.getElementById("flash-msg");
             if (msg) msg.style.display = 'none';
         }, 3000);
+        
+        const filterButtons = document.querySelectorAll('button[data-filter]');
 
-        const buttons = document.querySelectorAll('button[data-filter]');
-        const cards = document.querySelectorAll('.card.mb-3.p-3'); 
+        //- const cards = document.querySelectorAll('.card.mb-3.p-3'); 
 
-        buttons.forEach(btn => {
-            btn.addEventListener('click', () => {
-                const clickedFilterButtonValue = btn.dataset.filter;
+        //- filterButtons.forEach(btn => {
+        //-     btn.addEventListener('click', () => {
+        //-         const clickedFilterButtonValue = btn.dataset.filter;
 
-                cards.forEach(card => {
-                    card.style.display = card.dataset.status === clickedFilterButtonValue ? 'block' : 'none';
-                });
-            });
-        });
+        //-         const offersContainer = document.getElementById('offers-container');
+        //-         offersContainer.innerHTML = "";
+        //-         console.log("WHAT AM I", offersContainer);
+
+        //-         const filteredOffers = allCashbackOffers.filter(o => o.status === clickedFilterButtonValue);
+        //-         allCashbackOffers.forEach(o => {
+        //-             offersContainer.append(o);
+        //-         })
+
+                
+                
+            //- });
+        //- });
+
+
 
 //-  https://mdbootstrap.com/docs/standard/extended/horizontal-cards/
