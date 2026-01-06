@@ -5,6 +5,8 @@ import flash from 'connect-flash';
 
 const router = express.Router();
 
+let allOffers = [];
+
 router.get('/', async (req, res) => {
     res.render('index'); 
 });
@@ -66,39 +68,66 @@ function getTotalOffersTeilgenommen(allCashbackOffers) {
   return [teilgenommenCount, teilgenommenSum];
 }
 
-// ----------------
+
+function getAllStatCardData(allCashbackOffers) {
+    const [availableCount, availableSum] = getAvailableCardData(allCashbackOffers);
+    const [confirmedCount, confirmedSum] = getConfirmedCardData(allCashbackOffers); // 'Cashback confirmed' card
+    const [completedCount, completedSum] = getCompletedCardData(allCashbackOffers); // 'Cashback received' card
+    const [purchasedCount, purchasedSum] = getPurchasedData(allCashbackOffers);
+    const [uploadedCount, uploadedSum] = getUploadedData(allCashbackOffers);
+    const [teilgenommenCount, teilgenommenSum] = getTotalOffersTeilgenommen(allCashbackOffers);
+
+    return [availableCount, availableSum, confirmedCount, confirmedSum, completedCount, completedSum,
+      purchasedCount, purchasedSum, uploadedCount, uploadedSum, teilgenommenCount, teilgenommenSum];
+}
+
+// ---------------- FILTER ROUTES ----------------
 
 router.get('/available', async (req, res) => {
   try {
     const conn = await pool.getConnection();
-    const allAvailableOffers = await conn.query('SELECT * FROM cashback_offer where status = "Available"');
+    const filteredOffers = await conn.query('SELECT * FROM cashback_offer where status = "Available"');
+    const allCashbackOffers = await conn.query('SELECT * FROM cashback_offer');
     conn.release();
 
+    const [availableCount, availableSum, confirmedCount, confirmedSum, completedCount, completedSum,
+      purchasedCount, purchasedSum, uploadedCount, uploadedSum, teilgenommenCount, teilgenommenSum] = getAllStatCardData(allCashbackOffers);
+
     res.render('dashboard',  {
+      filteredOffers, 
+      availableCount, availableSum, 
+      confirmedCount, confirmedSum, 
+      completedCount, completedSum,
+      purchasedCount, purchasedSum, 
+      uploadedCount, uploadedSum, 
+      teilgenommenCount, teilgenommenSum
 
     })
   } catch (err) {
-      console.error('Error filtering "Available" offers:', err);
-      res.render('dashboard', { 
-        allCashbackOffers: [], 
-        success_msg: req.flash('success_msg') 
+    console.error('Error filtering "Available" offers:', err);
+    res.render('dashboard', { 
+      allCashbackOffers: [], 
+      success_msg: req.flash('success_msg') 
       });
 
   } // end catch
 });
 
+
+// ---------------- DASHBOARD ----------------
 router.get('/dashboard', async (req, res) => {
   try {
     const conn = await pool.getConnection();
     const allCashbackOffers = await conn.query('SELECT * FROM cashback_offer');
     conn.release();
     
+    getAllStatCardData(allCashbackOffers);
+
     const [availableCount, availableSum] = getAvailableCardData(allCashbackOffers);
     const [confirmedCount, confirmedSum] = getConfirmedCardData(allCashbackOffers); // 'Cashback confirmed' card
     const [completedCount, completedSum] = getCompletedCardData(allCashbackOffers); // 'Cashback received' card
     const [purchasedCount, purchasedSum] = getPurchasedData(allCashbackOffers);
     const [uploadedCount, uploadedSum] = getUploadedData(allCashbackOffers);
-
     const [teilgenommenCount, teilgenommenSum] = getTotalOffersTeilgenommen(allCashbackOffers);
 
     res.render('dashboard', { 
@@ -109,7 +138,6 @@ router.get('/dashboard', async (req, res) => {
       uploadedCount, uploadedSum,
       confirmedCount, confirmedSum,
       completedCount, completedSum,
-
       teilgenommenCount, teilgenommenSum,
 
 

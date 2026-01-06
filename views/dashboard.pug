@@ -41,7 +41,7 @@ block content
     .row.mb-3.mt-3
         .col.d-flex.justify-content-between.align-items-center
             .btn-group(role="group" aria-label="Filtering buttons")
-                button.btn.btn-info.m-1(type="button" data-filter="Available") Available 
+                button.btn.btn-info.m-1(type="button" data-filter="Available" href='/available') Available  
                 button.btn.btn-primary.m-1(type="button" data-filter="Purchased") Purchased 
                 button.btn.btn-warning.m-1(type="button" data-filter="Uploaded") Uploaded
                 button.btn.btn-dark.m-1(type="button" data-filter="Confirmed") Confirmed 
@@ -52,7 +52,7 @@ block content
             button.btn.btn-secondary.m-2.text-right(type="button", data-bs-toggle="modal", data-bs-target="#cashbackFormModal") + Add new offer
 
     
-    - const cashbackOffers = allCashbackOffers || []
+    - const cashbackOffers = filteredOffers || allCashbackOffers || [] // evaluated LTR
     
     if cashbackOffers.length === 0
         .row.m-2 
@@ -141,7 +141,7 @@ block content
 
 
     script. 
-        window.allCashbackOffers = !{JSON.stringify(allCashbackOffers)};
+        //- window.allCashbackOffers = !{JSON.stringify(allCashbackOffers)};
 
         setTimeout(() => {
             const msg = document.getElementById("flash-msg");
@@ -149,6 +149,11 @@ block content
         }, 3000);
         
         const filterButtons = document.querySelectorAll('button[data-filter]');
+        filterButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                console.log("clicked")
+            })
+        })
 
         //- const cards = document.querySelectorAll('.card.mb-3.p-3'); 
 
