@@ -41,7 +41,8 @@ block content
     .row.mb-3.mt-3
         .col.d-flex.justify-content-between.align-items-center
             .btn-group(role="group" aria-label="Filtering buttons")
-                button.btn.btn-info.m-1(type="button" data-filter="Available" href='/available') Available  
+                button.btn.btn-info.m-1(type="button" data-filter="Available") 
+                    a(href='/available') Available  
                 button.btn.btn-primary.m-1(type="button" data-filter="Purchased") Purchased 
                 button.btn.btn-warning.m-1(type="button" data-filter="Uploaded") Uploaded
                 button.btn.btn-dark.m-1(type="button" data-filter="Confirmed") Confirmed 

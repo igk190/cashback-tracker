@@ -172,5 +172,6 @@ Learnings
 3. write custom attributes if they start with data-*. Ex: <article id="flying-cars"... 
 Then access all attr of this el through data-columns, data-index-numbers, etc. 
 
+NEXT TODO: ON CLICK, the buttons should work.
 */
 
