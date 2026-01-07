@@ -6,6 +6,7 @@ import flash from 'connect-flash';
 const router = express.Router();
 
 let allOffers = [];
+// let filterStatus = "";
 
 router.get('/', async (req, res) => {
     res.render('index'); 
@@ -15,66 +16,30 @@ router.use(flash());
 
 // -------- GET DATA FOR STATISTICS CARDS --------
 
-function getCompletedCardData(allCashbackOffers) {
+function getCardStatNumbers(allCashbackOffers, cashbackStatus) {
 
-  const completedArr = allCashbackOffers.filter(o => o.status === "Completed");
-  const completedCount = completedArr.length;
-  const completedSum = completedArr.reduce((sum, o) => sum + (parseFloat(o.cashback_amount) || 0), 0);
+  let arr = allCashbackOffers.filter(o => o.status === cashbackStatus);
+  const statCount = arr.length;
+  const statSum = arr.reduce((sum, o) => sum + (parseFloat(o.cashback_amount) || 0), 0 ); 
 
-  return [completedCount, completedSum];
-}
-
-function getConfirmedCardData(allCashbackOffers) {
-
-  const confirmedArr = allCashbackOffers.filter(o => o.status === "Confirmed");
-  const confirmedCount = confirmedArr.length;
-  const confirmedSum = confirmedArr.reduce((sum, o) => sum + (parseFloat(o.cashback_amount) || 0), 0);
-  
-  return [confirmedCount, confirmedSum];
-}
-
-function getAvailableCardData(allCashbackOffers) {
-
-  const availableArr = allCashbackOffers.filter(o => o.status === "Available");
-  const availableCount = availableArr.length;
-  const availableSum = availableArr.reduce((sum, o) => sum + (parseFloat(o.cashback_amount) || 0), 0);
-  
-  return [availableCount, availableSum];
-}
-
-function getPurchasedData(allCashbackOffers) {
-  
-  const purchasedArr = allCashbackOffers.filter(o => o.status === "Purchased");
-  const purchasedCount = purchasedArr.length;
-  const purchasedSum = purchasedArr.reduce((sum, o) => sum + parseFloat(o.cashback_amount), 0);
-  
-  return [purchasedCount, purchasedSum];
-}
-
-function getUploadedData(allCashbackOffers) {
-  
-  const uploadedArr = allCashbackOffers.filter(o => o.status === "Uploaded");
-  const uploadedCount = uploadedArr.length;
-  const uploadedSum = uploadedArr.reduce((sum, o) => sum + parseFloat(o.cashback_amount), 0 );
-
-  return [uploadedCount, uploadedSum];
+  return [statCount, statSum];
 }
 
 function getTotalOffersTeilgenommen(allCashbackOffers) {
   const teilgenommenArr = allCashbackOffers.filter(o => o.status !== "Available");
   const teilgenommenCount = teilgenommenArr.length;
-  const teilgenommenSum = teilgenommenArr.reduce((sum, o) => sum + parseFloat(o.cashback_amount), 0 ); // from purchased onward, offers WILL have a cashback_amount
+  const teilgenommenSum = teilgenommenArr.reduce((sum, o) => sum + (parseFloat(o.cashback_amount) || 0), 0 ); 
 
   return [teilgenommenCount, teilgenommenSum];
 }
 
 
 function getAllStatCardData(allCashbackOffers) {
-    const [availableCount, availableSum] = getAvailableCardData(allCashbackOffers);
-    const [confirmedCount, confirmedSum] = getConfirmedCardData(allCashbackOffers); // 'Cashback confirmed' card
-    const [completedCount, completedSum] = getCompletedCardData(allCashbackOffers); // 'Cashback received' card
-    const [purchasedCount, purchasedSum] = getPurchasedData(allCashbackOffers);
-    const [uploadedCount, uploadedSum] = getUploadedData(allCashbackOffers);
+    const [availableCount, availableSum] = getCardStatNumbers(allCashbackOffers, "Available");
+    const [confirmedCount, confirmedSum] = getCardStatNumbers(allCashbackOffers, "Confirmed"); // 'Cashback confirmed' card
+    const [completedCount, completedSum] = getCardStatNumbers(allCashbackOffers, "Completed"); // 'Cashback received' card
+    const [purchasedCount, purchasedSum] = getCardStatNumbers(allCashbackOffers, "Purchased");
+    const [uploadedCount, uploadedSum] = getCardStatNumbers(allCashbackOffers, "Uploaded");
     const [teilgenommenCount, teilgenommenSum] = getTotalOffersTeilgenommen(allCashbackOffers);
 
     return [availableCount, availableSum, confirmedCount, confirmedSum, completedCount, completedSum,
@@ -101,7 +66,6 @@ router.get('/available', async (req, res) => {
       purchasedCount, purchasedSum, 
       uploadedCount, uploadedSum, 
       teilgenommenCount, teilgenommenSum
-
     })
   } catch (err) {
     console.error('Error filtering "Available" offers:', err);
@@ -121,14 +85,8 @@ router.get('/dashboard', async (req, res) => {
     const allCashbackOffers = await conn.query('SELECT * FROM cashback_offer');
     conn.release();
     
-    getAllStatCardData(allCashbackOffers);
-
-    const [availableCount, availableSum] = getAvailableCardData(allCashbackOffers);
-    const [confirmedCount, confirmedSum] = getConfirmedCardData(allCashbackOffers); // 'Cashback confirmed' card
-    const [completedCount, completedSum] = getCompletedCardData(allCashbackOffers); // 'Cashback received' card
-    const [purchasedCount, purchasedSum] = getPurchasedData(allCashbackOffers);
-    const [uploadedCount, uploadedSum] = getUploadedData(allCashbackOffers);
-    const [teilgenommenCount, teilgenommenSum] = getTotalOffersTeilgenommen(allCashbackOffers);
+    const [availableCount, availableSum, confirmedCount, confirmedSum, completedCount, completedSum,
+      purchasedCount, purchasedSum, uploadedCount, uploadedSum, teilgenommenCount, teilgenommenSum] = getAllStatCardData(allCashbackOffers);
 
     res.render('dashboard', { 
       allCashbackOffers, 
@@ -140,7 +98,6 @@ router.get('/dashboard', async (req, res) => {
       completedCount, completedSum,
       teilgenommenCount, teilgenommenSum,
 
-
       success_msg: req.flash('success_msg') 
     });
   } catch (err) {
@@ -149,6 +106,7 @@ router.get('/dashboard', async (req, res) => {
     res.render('dashboard', { allCashbackOffers: [], success_msg: req.flash('success_msg') });
   }
 });
+
 
 router.post('/cashback', async (req, res) => {
   try {

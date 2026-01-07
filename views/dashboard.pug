@@ -1,7 +1,5 @@
 extends ./layouts/main 
 
-
-
 block content
   .container.mt-5
   
@@ -30,7 +28,7 @@ block content
                 .card-body 
                     h3.card-title Available offers
                     h4.card-subtitle.mb-2.text-body-secondary #{availableSum} €
-                    p.card-text #{availableCount} offers available
+                    p.card-text #{availableCount} more offers available!
         .col-md-3
             .card
                 .card-body 
@@ -40,7 +38,7 @@ block content
     
     .row.mb-3.mt-3
         .col.d-flex.justify-content-between.align-items-center
-            .btn-group(role="group" aria-label="Filtering buttons")
+            .btn-group(role="group" aria-label="Filtering buttons" data-toggle="buttons")
                 button.btn.btn-info.m-1(type="button" data-filter="Available") 
                     a(href='/available') Available  
                 button.btn.btn-primary.m-1(type="button" data-filter="Purchased") Purchased 
@@ -150,32 +148,7 @@ block content
         }, 3000);
         
         const filterButtons = document.querySelectorAll('button[data-filter]');
-        filterButtons.forEach(btn => {
-            btn.addEventListener('click', () => {
-                console.log("clicked")
-            })
-        })
-
-        //- const cards = document.querySelectorAll('.card.mb-3.p-3'); 
-
-        //- filterButtons.forEach(btn => {
-        //-     btn.addEventListener('click', () => {
-        //-         const clickedFilterButtonValue = btn.dataset.filter;
-
-        //-         const offersContainer = document.getElementById('offers-container');
-        //-         offersContainer.innerHTML = "";
-        //-         console.log("WHAT AM I", offersContainer);
-
-        //-         const filteredOffers = allCashbackOffers.filter(o => o.status === clickedFilterButtonValue);
-        //-         allCashbackOffers.forEach(o => {
-        //-             offersContainer.append(o);
-        //-         })
-
-                
-                
-            //- });
-        //- });
-
+  
 
 
 //-  https://mdbootstrap.com/docs/standard/extended/horizontal-cards/
