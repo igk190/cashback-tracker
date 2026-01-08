@@ -86,7 +86,6 @@ router.get('/dashboard', async (req, res) => {
       purchasedCount, purchasedSum, uploadedCount, uploadedSum, teilgenommenCount, teilgenommenSum] = getAllStatCardData(allCashbackOffers); 
     
     let filteredOffers;
-
     const {status} = req.query;
     console.log(status);
 

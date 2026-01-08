@@ -41,10 +41,14 @@ block content
             .btn-group(role="group" aria-label="Filtering buttons" data-toggle="buttons")
                 button.btn.btn-info.m-1(type="button" data-filter="Available") 
                     a(href='/dashboard?status=Available') Available  
-                button.btn.btn-primary.m-1(type="button" data-filter="Purchased") Purchased 
-                button.btn.btn-warning.m-1(type="button" data-filter="Uploaded") Uploaded
-                button.btn.btn-dark.m-1(type="button" data-filter="Confirmed") Confirmed 
-                button.btn.btn-success.m-1(type="button" data-filter="Completed") Completed 
+                button.btn.btn-primary.m-1(type="button" data-filter="Purchased")
+                    a(href='/dashboard?status=Purchased') Purchased   
+                button.btn.btn-warning.m-1(type="button" data-filter="Uploaded")
+                    a(href='/dashboard?status=Uploaded') Uploaded 
+                button.btn.btn-dark.m-1(type="button" data-filter="Confirmed")
+                    a(href='/dashboard?status=Confirmed') Confirmed 
+                button.btn.btn-success.m-1(type="button" data-filter="Completed")  
+                    a(href='/dashboard?status=Completed') Completed 
             
         .col-4
         .col
