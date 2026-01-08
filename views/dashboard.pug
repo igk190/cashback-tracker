@@ -40,7 +40,7 @@ block content
         .col.d-flex.justify-content-between.align-items-center
             .btn-group(role="group" aria-label="Filtering buttons" data-toggle="buttons")
                 button.btn.btn-info.m-1(type="button" data-filter="Available") 
-                    a(href='/available') Available  
+                    a(href='/dashboard?status=Available') Available  
                 button.btn.btn-primary.m-1(type="button" data-filter="Purchased") Purchased 
                 button.btn.btn-warning.m-1(type="button" data-filter="Uploaded") Uploaded
                 button.btn.btn-dark.m-1(type="button" data-filter="Confirmed") Confirmed 
@@ -140,8 +140,6 @@ block content
 
 
     script. 
-        //- window.allCashbackOffers = !{JSON.stringify(allCashbackOffers)};
-
         setTimeout(() => {
             const msg = document.getElementById("flash-msg");
             if (msg) msg.style.display = 'none';

@@ -5,9 +5,6 @@ import flash from 'connect-flash';
 
 const router = express.Router();
 
-let allOffers = [];
-// let filterStatus = "";
-
 router.get('/', async (req, res) => {
     res.render('index'); 
 });
@@ -84,12 +81,22 @@ router.get('/dashboard', async (req, res) => {
     const conn = await pool.getConnection();
     const allCashbackOffers = await conn.query('SELECT * FROM cashback_offer');
     conn.release();
-    
-    const [availableCount, availableSum, confirmedCount, confirmedSum, completedCount, completedSum,
-      purchasedCount, purchasedSum, uploadedCount, uploadedSum, teilgenommenCount, teilgenommenSum] = getAllStatCardData(allCashbackOffers);
 
+    const [availableCount, availableSum, confirmedCount, confirmedSum, completedCount, completedSum,
+      purchasedCount, purchasedSum, uploadedCount, uploadedSum, teilgenommenCount, teilgenommenSum] = getAllStatCardData(allCashbackOffers); 
+    
+    let filteredOffers;
+
+    const {status} = req.query;
+    console.log(status);
+
+    if (status) {
+      filteredOffers = allCashbackOffers.filter(o => o.status === status);
+    } else {
+      filteredOffers = allCashbackOffers;
+    }
     res.render('dashboard', { 
-      allCashbackOffers, 
+      filteredOffers,
 
       availableCount, availableSum,
       purchasedCount, purchasedSum,
@@ -103,7 +110,7 @@ router.get('/dashboard', async (req, res) => {
   } catch (err) {
     console.error('Error:', err);
     req.flash('error_msg', 'Error loading offers.');
-    res.render('dashboard', { allCashbackOffers: [], success_msg: req.flash('success_msg') });
+    res.render('dashboard', { filteredOffers: [], success_msg: req.flash('success_msg') });
   }
 });
 
@@ -130,6 +137,6 @@ Learnings
 3. write custom attributes if they start with data-*. Ex: <article id="flying-cars"... 
 Then access all attr of this el through data-columns, data-index-numbers, etc. 
 
-NEXT TODO: ON CLICK, the buttons should work.
+next todo: keep dashboard and one route. Add ?status=Available instead of new route for each filter button.
 */
 
