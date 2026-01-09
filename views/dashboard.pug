@@ -49,11 +49,12 @@ block content
                     a(href='/dashboard?status=Confirmed') Confirmed 
                 button.btn.btn-success.m-1(type="button" data-filter="Completed")  
                     a(href='/dashboard?status=Completed') Completed 
-            
-        .col-4
+        .col-2.d-flex.justify-content-between.align-items-center
+            a.pl-0.expired(href='/dashboard?status=Expired') View expired offers
+        .col-2
         .col
             button.btn.btn-secondary.m-2.text-right(type="button", data-bs-toggle="modal", data-bs-target="#cashbackFormModal") + Add new offer
-
+         
     
     - const cashbackOffers = filteredOffers || allCashbackOffers || [] // evaluated LTR
     

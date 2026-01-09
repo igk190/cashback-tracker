@@ -136,6 +136,6 @@ Learnings
 3. write custom attributes if they start with data-*. Ex: <article id="flying-cars"... 
 Then access all attr of this el through data-columns, data-index-numbers, etc. 
 
-next todo: keep dashboard and one route. Add ?status=Available instead of new route for each filter button.
+https://codesignal.com/learn/courses/practical-request-processing-with-mock-data/lessons/filtering-data-using-query-parameters-in-expressjs
 */
 
