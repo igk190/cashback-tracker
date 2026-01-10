@@ -40,15 +40,15 @@ block content
         .col.d-flex.justify-content-between.align-items-center
             .btn-group(role="group" aria-label="Filtering buttons" data-toggle="buttons")
                 button.btn.btn-info.m-1(type="button" data-filter="Available") 
-                    a(href='/dashboard?status=Available') Available  
+                    a.filter-btn(href='/dashboard?status=Available') Available  
                 button.btn.btn-primary.m-1(type="button" data-filter="Purchased")
-                    a(href='/dashboard?status=Purchased') Purchased   
+                    a.filter-btn(href='/dashboard?status=Purchased') Purchased   
                 button.btn.btn-warning.m-1(type="button" data-filter="Uploaded")
-                    a(href='/dashboard?status=Uploaded') Uploaded 
+                    a.filter-btn(href='/dashboard?status=Uploaded') Uploaded 
                 button.btn.btn-dark.m-1(type="button" data-filter="Confirmed")
-                    a(href='/dashboard?status=Confirmed') Confirmed 
+                    a.filter-btn(href='/dashboard?status=Confirmed') Confirmed 
                 button.btn.btn-success.m-1(type="button" data-filter="Completed")  
-                    a(href='/dashboard?status=Completed') Completed 
+                    a.filter-btn(href='/dashboard?status=Completed' ) Completed 
         .col-2.d-flex.justify-content-between.align-items-center
             a.pl-0.expired(href='/dashboard?status=Expired') View expired offers
         .col-2
@@ -76,7 +76,8 @@ block content
                             img(src=item.photo_url, width="200", style="max-height:150px; object-fit:cover;")
                         if item.cashback_amount
                             p Cashback: #{item.cashback_amount} €
-                        p Store: #{item.store}
+                        if item.store 
+                            p Store: #{item.store}
                         if item.start_date || item.end_date
                             .row
                                 .col-4
@@ -89,7 +90,9 @@ block content
                             a(href=item.cashback_url, target="_blank")
                                 p.text-center(style="font-size: 0.8rem") Visit offer 
                                     i.bi.bi-box-arrow-up-right.mb-2(style="font-size: 0.8rem; color: cornflowerblue;")
-                
+                        - const test = "I am test"
+                        span.badge.badge-primary.bg-info #{test}
+
     #cashbackFormModal.modal.fade(tabindex="-1" aria-labelledby="cashbackFormModal" aria-hidden="true")     
         .modal-dialog
             .modal-content
@@ -99,11 +102,11 @@ block content
                 .modal-body.bg-secondary-subtle
                     form(action="/cashback" method="POST" id="cashback-form")
                         .mb-3 
-                            label.form-label(for="product-name") Product name 
-                            input.form-control(type="text" id="product-name" name="product_name" placeholder="Kinder Pengui") 
+                            label.form-label(for="product-name") Product name *
+                            input.form-control(type="text" id="product-name" name="product_name" placeholder="Kinder Pengui" required) 
                         .mb-3 
-                            label.form-label(for="cashback-url") Cashback URL 
-                            input.form-control(type="text" id="cashback-url" name="cashback_url")
+                            label.form-label(for="cashback-url") Cashback URL *
+                            input.form-control(type="text" id="cashback-url" name="cashback_url" required)
                         .mb-3 
                             label.form-label(for="photo-url") Product photo URL 
                             input.form-control(type="text" id="photo-url" name="photo_url")
@@ -112,8 +115,8 @@ block content
                                 label.form-label(for="start-date") Start date 
                                 input.form-control(type="date" id="start-date" placeholder="01.10.2025" name="start_date")
                             .col
-                                label.form-label(for="end-date") End date
-                                input.form-control(type="date" id="end-date" placeholder="20.10.2025" name="end_date")
+                                label.form-label(for="end-date") End date *
+                                input.form-control(type="date" id="end-date" placeholder="20.10.2025" name="end_date" required)
                         .row.mb-3 
                             .col
                                 label.form-label(for="price") Price
@@ -132,7 +135,7 @@ block content
                             label.form-label(for="conditions") Conditions 
                             input.form-control(type="text" id="conditions" placeholder="Mit Aktionssticker, EAN 12345678" name="conditions")
                         .mb-3 
-                            label.form-label(for="status") Status  
+                            label.form-label(for="status") Status * 
                             select.custom-select.custom-select-sm.m-2(name="status")
                                 option Available
                                 option Purchased 
@@ -151,7 +154,9 @@ block content
         }, 3000);
         
         const filterButtons = document.querySelectorAll('button[data-filter]');
-  
+        const date = new Date();
+        let dateintext = date.toLocaleDateString();
+        console.log("this date", dateintext);
 
 
 //-  https://mdbootstrap.com/docs/standard/extended/horizontal-cards/
