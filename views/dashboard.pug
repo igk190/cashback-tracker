@@ -90,8 +90,22 @@ block content
                             a(href=item.cashback_url, target="_blank")
                                 p.text-center(style="font-size: 0.8rem") Visit offer 
                                     i.bi.bi-box-arrow-up-right.mb-2(style="font-size: 0.8rem; color: cornflowerblue;")
-                        - const test = "I am test"
-                        span.badge.badge-primary.bg-info #{test}
+                        - const daterightnow = new Date();
+                        - console.log("DATE NOW", daterightnow)
+                        
+                        - console.log("ITEM START DATE", item.end_date)
+                        - const options = { weekday: "short", month: "long", day: "numeric"}
+                        if (item.start_date)
+                            if (item.start_date < daterightnow)
+                                - let timeDiff = daterightnow - item.start_date 
+                                - let daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24))
+                                if (daysDiff <= 3)
+                                    span.badge.badge-primary.bg-info Starts in #{daysDiff} days
+                                else 
+                                    span.badge.badge-primary.bg-info Starts on #{item.start_date.toLocaleDateString("de-DE", options)}
+
+
+    
 
     #cashbackFormModal.modal.fade(tabindex="-1" aria-labelledby="cashbackFormModal" aria-hidden="true")     
         .modal-dialog
@@ -152,11 +166,11 @@ block content
             const msg = document.getElementById("flash-msg");
             if (msg) msg.style.display = 'none';
         }, 3000);
+
+        
         
         const filterButtons = document.querySelectorAll('button[data-filter]');
-        const date = new Date();
-        let dateintext = date.toLocaleDateString();
-        console.log("this date", dateintext);
-
-
+        
+    
 //-  https://mdbootstrap.com/docs/standard/extended/horizontal-cards/
+//- https://www.geeksforgeeks.org/javascript/how-to-calculate-the-number-of-days-between-two-dates-in-javascript/
