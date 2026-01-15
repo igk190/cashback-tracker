@@ -93,13 +93,23 @@ block content
 
                         - const daterightnow = new Date();
                         - const options = { weekday: "short", month: "short", day: "numeric"}
-                        - let timeDiff = item.start_date - daterightnow
-                        - let daysDiff = Math.ceil(timeDiff / (1000 * 60 * 60 * 24))
-                        if (daysDiff > 0) 
-                            if (daysDiff <= 3 && daysDiff > 0)
-                                span.badge.badge-primary.bg-info Starts in #{daysDiff === 1 ? "1 day" : daysDiff} days
-                            else
-                                span.badge.badge-primary.bg-info Starts on #{item.start_date.toLocaleDateString("de-DE", options)}
+                        - let timeDiffStart = item.start_date - daterightnow
+                        - let daysDiffStart = Math.ceil(timeDiffStart / (1000 * 60 * 60 * 24))
+                        - let timeDiffEnd = item.end_date - daterightnow
+                        - let daysDiffEnd = Math.ceil(timeDiffEnd / (1000 * 60 * 60 * 24))
+
+                        if (item.start_date || item.end_date) 
+                            if (daysDiffStart > 0 && daysDiffStart <= 3)
+                                span.badge.bg-info.text-dark Starts in #{daysDiffStart === 1 ? "1 day" : daysDiffStart} days
+                            else if (daysDiffStart === 0)
+                                span.badge.bg-info.text-dark Started today 🗓️
+                            else if (daysDiffEnd > 0 && daysDiffEnd <= 3)
+                                span.badge.bg-info.text-dark Ends in #{daysDiffEnd === 1 ? "1 day" : daysDiffEnd } days 
+                            else if (daysDiffEnd > 0)
+                                span.badge.bg-info.text-dark Ends on #{item.end_date.toLocaleDateString("de-DE", options)}
+                        
+                
+
 
     
 
