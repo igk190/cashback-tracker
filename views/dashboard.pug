@@ -104,9 +104,9 @@ block content
                             else if (daysDiffStart === 0)
                                 span.badge.bg-info.text-dark Started today 🗓️
                             else if (daysDiffEnd > 0 && daysDiffEnd <= 3)
-                                span.badge.bg-info.text-dark Ends in #{daysDiffEnd === 1 ? "1 day" : daysDiffEnd } days 
+                                span.badge.bg-danger.text-light Ends in #{daysDiffEnd === 1 ? "1" : daysDiffEnd } days
                             else if (daysDiffEnd > 0)
-                                span.badge.bg-info.text-dark Ends on #{item.end_date.toLocaleDateString("de-DE", options)}
+                                span.badge.bg-warning.text-dark Ends on #{item.end_date.toLocaleDateString("de-DE", options)}
                         
                 
 
