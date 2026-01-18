@@ -5,8 +5,8 @@ export async function addCashbackOffer(offer) {
   try {
     const result = await conn.query(
       `INSERT INTO cashback_offer 
-      (product_name, cashback_url, photo_url, start_date, end_date, price, cashback_amount, store, conditions, status, purchase_date)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      (product_name, cashback_url, photo_url, start_date, end_date, price, cashback_amount, store, conditions, status, purchase_date, expired)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
       [
         offer.product_name,
         offer.cashback_url || null,
@@ -19,6 +19,7 @@ export async function addCashbackOffer(offer) {
         offer.conditions || null,
         offer.status || "Available",
         offer.purchase_date || null,
+        offer.expired || 0
       ]
     );
     return result;

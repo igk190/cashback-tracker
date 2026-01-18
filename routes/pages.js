@@ -1,5 +1,6 @@
 import express from 'express';
 import { addCashbackOffer } from '../models/cashback.js';
+import { updateExpiredOffer } from '../models/updateExpired.js';
 import pool from '../config/database.js';
 import flash from 'connect-flash';
 
@@ -10,6 +11,30 @@ router.get('/', async (req, res) => {
 });
 
 router.use(flash());
+
+
+async function updateExpiredOffers(allCashbackOffers) {
+  
+  const todaysDate = new Date();
+
+  for (const offer of allCashbackOffers) { 
+    if (offer.end_date && todaysDate > offer.end_date ) {
+      try {
+        await updateExpiredOffer(offer.id)
+          console.log("OFFER END DATE:", offer.end_date, " IS BIGGER THAN TODAY:", todaysDate,  todaysDate > offer.end_date); 
+          console.log(typeof offer.end_date)
+      } catch (err) {
+        console.error(err);
+      }
+    } // end if... 
+  } // end for
+} // end func
+
+
+   
+   
+
+
 
 // -------- GET DATA FOR STATISTICS CARDS --------
 
@@ -43,41 +68,12 @@ function getAllStatCardData(allCashbackOffers) {
       purchasedCount, purchasedSum, uploadedCount, uploadedSum, teilgenommenCount, teilgenommenSum];
 }
 
-// ---------------- FILTER ROUTES ----------------
-
-router.get('/available', async (req, res) => {
-  try {
-    const conn = await pool.getConnection();
-    const filteredOffers = await conn.query('SELECT * FROM cashback_offer where status = "Available"');
-    const allCashbackOffers = await conn.query('SELECT * FROM cashback_offer');
-    conn.release();
-
-    const [availableCount, availableSum, confirmedCount, confirmedSum, completedCount, completedSum,
-      purchasedCount, purchasedSum, uploadedCount, uploadedSum, teilgenommenCount, teilgenommenSum] = getAllStatCardData(allCashbackOffers);
-
-    res.render('dashboard',  {
-      filteredOffers, 
-      availableCount, availableSum, 
-      confirmedCount, confirmedSum, 
-      completedCount, completedSum,
-      purchasedCount, purchasedSum, 
-      uploadedCount, uploadedSum, 
-      teilgenommenCount, teilgenommenSum
-    })
-  } catch (err) {
-    console.error('Error filtering "Available" offers:', err);
-    res.render('dashboard', { 
-      allCashbackOffers: [], 
-      success_msg: req.flash('success_msg') 
-      });
-
-  } // end catch
-});
 
 
 // ---------------- DASHBOARD ----------------
 router.get('/dashboard', async (req, res) => {
   try {
+
     const conn = await pool.getConnection();
     const allCashbackOffers = await conn.query('SELECT * FROM cashback_offer');
     conn.release();
@@ -89,8 +85,13 @@ router.get('/dashboard', async (req, res) => {
     const {status} = req.query;
     console.log(status);
 
-    if (status) {
+    updateExpiredOffers(allCashbackOffers);
+
+    if (status === "expired") {
+      filteredOffers = allCashbackOffers.filter(o => o.expired === 1); // true === 1, false is 0
+    } else if (status !== "expired") {
       filteredOffers = allCashbackOffers.filter(o => o.status === status);
+
     } else {
       filteredOffers = allCashbackOffers;
     }
