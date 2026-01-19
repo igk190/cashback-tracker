@@ -31,10 +31,6 @@ async function updateExpiredOffers(allCashbackOffers) {
 } // end func
 
 
-   
-   
-
-
 
 // -------- GET DATA FOR STATISTICS CARDS --------
 
@@ -89,6 +85,8 @@ router.get('/dashboard', async (req, res) => {
 
     if (status === "expired") {
       filteredOffers = allCashbackOffers.filter(o => o.expired === 1); // true === 1, false is 0
+    }  else if (!status) {
+      filteredOffers = allCashbackOffers.filter(o => o.status === "Available");
     } else if (status !== "expired") {
       filteredOffers = allCashbackOffers.filter(o => o.status === status);
 
@@ -138,5 +136,9 @@ Learnings
 Then access all attr of this el through data-columns, data-index-numbers, etc. 
 
 https://codesignal.com/learn/courses/practical-request-processing-with-mock-data/lessons/filtering-data-using-query-parameters-in-expressjs
+
+in get Dashboard, we update expiredOffers. An offer shouldn't be status: Expired, just because
+the date passed. It can be that you purchased it well within timeframe, and due date has passed, but
+you're waiting for the companies' confirmation. 
 */
 
