@@ -86,10 +86,36 @@ block content
                                     p #{new Date(item.start_date).toLocaleDateString('en-US')} - #{new Date(item.end_date).toLocaleDateString('en-US')} 
                         if item.purchase_date 
                             p Gekauft am: #{new Date(item.purchase_date).toLocaleDateString('en-US')}
-                        if item.cashback_url
-                            a(href=item.cashback_url, target="_blank")
-                                p.text-center(style="font-size: 0.8rem") Visit offer 
-                                    i.bi.bi-box-arrow-up-right.mb-2(style="font-size: 0.8rem; color: cornflowerblue;")
+                        .row
+                            .col-6 
+                                button.btn.btn-outline-primary.btn-sm.mb-3(type="button"
+                                
+                                data-bs-toggle="modal"
+                                data-bs-target="#editOfferModal"
+                                data-id=item.id
+                                data-product_name=item.product_name
+                                data-cashback_url=item.cashback_url 
+                                data-photo_url=item.photo_url
+                                data-start_date=item.start_date
+                                data-end_date=item.end_date 
+                                data-price=item.price 
+                                data-cashback_amount=item.cashback_amount
+                                data-store=item.store 
+                                data-conditions=item.conditions
+                                data-status=item.status
+                                data-purchase_date=item.purchase_date
+    
+                                onclick="testie(this)"
+                                
+                                ) Edit offer
+
+                        
+
+                            .col-6
+                                if item.cashback_url
+                                    a(href=item.cashback_url, target="_blank")
+                                        p.text-center(style="font-size: 0.8rem") Visit offer 
+                                            i.bi.bi-box-arrow-up-right.mb-2(style="font-size: 0.8rem; color: cornflowerblue;")
 
                         - const daterightnow = new Date();
                         - const options = { weekday: "short", month: "short", day: "numeric"}
@@ -175,7 +201,9 @@ block content
             if (msg) msg.style.display = 'none';
         }, 3000);
 
-        
+        function testie(btn) {
+            console.log(btn.dataset)
+        }
         
         const filterButtons = document.querySelectorAll('button[data-filter]');
         
@@ -183,3 +211,4 @@ block content
 //-  https://mdbootstrap.com/docs/standard/extended/horizontal-cards/
 //- https://www.geeksforgeeks.org/javascript/how-to-calculate-the-number-of-days-between-two-dates-in-javascript/
 //- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toLocaleDateString
+//- HTML allows unlimited data-* attributes. Access through: btn.dataset.whwatever --> element.DATASET.NameOfYourAttr
