@@ -91,7 +91,7 @@ block content
                                 button.btn.btn-outline-primary.btn-sm.mb-3(type="button"
                                 
                                 data-bs-toggle="modal"
-                                data-bs-target="#editOfferModal"
+                                data-bs-target="#cashbackFormModal"
                                 data-id=item.id
                                 data-product_name=item.product_name
                                 data-cashback_url=item.cashback_url 
@@ -108,6 +108,7 @@ block content
                                 onclick="testie(this)"
                                 
                                 ) Edit offer
+
 
                         
 
@@ -201,9 +202,41 @@ block content
             if (msg) msg.style.display = 'none';
         }, 3000);
 
-        function testie(btn) {
-            console.log(btn.dataset)
-        }
+        const modal = document.getElementById("cashbackFormModal"); 
+
+        modal.addEventListener("show.bs.modal", event => {
+            const btn = event.relatedTarget;
+
+            modal.querySelector("input[name='product_name']").value = btn.dataset.product_name;
+
+            modal.querySelector("input[name='cashback_url']").value = btn.dataset.cashback_url;
+            modal.querySelector("input[name='photo_url']").value = btn.dataset.photo_url;
+            modal.querySelector("input[name='start_date']").value = btn.dataset.start_date;
+            modal.querySelector("input[name='end_date']").value = btn.dataset.end_date;
+            if (btn.dataset.price) {
+                modal.querySelector("input[name='price']").value = btn.dataset.price;
+            }
+            if (btn.dataset.cashback_amount) {
+                modal.querySelector("input[name='cashback_amount']").value = btn.dataset.cashback_amount;
+            }
+            
+            
+            modal.querySelector("input[name='store']").value = btn.dataset.store;
+            modal.querySelector("input[name='purchase_date']").value = btn.dataset.purchase_date;
+            modal.querySelector("input[name='conditions']").value = btn.dataset.conditions;
+            modal.querySelector("input[name='status']").value = btn.dataset.status;
+            
+            function testie(btn) {
+                btn.dataset.forEach(item => {
+                    console.log(item)
+                })
+            }
+            
+
+            
+        })
+
+
         
         const filterButtons = document.querySelectorAll('button[data-filter]');
         
@@ -212,3 +245,5 @@ block content
 //- https://www.geeksforgeeks.org/javascript/how-to-calculate-the-number-of-days-between-two-dates-in-javascript/
 //- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toLocaleDateString
 //- HTML allows unlimited data-* attributes. Access through: btn.dataset.whwatever --> element.DATASET.NameOfYourAttr
+//- event.relatedTarget = what triggered the modal, btn we clicked on
+//- The Element.dataset property returns a DOMStringMap, an object-like collection of key-value pairs. https://gomakethings.com/managing-data-attributes-with-the-dataset-property-in-vanilla-javascript/ 
