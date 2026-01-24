@@ -21,8 +21,8 @@ async function updateExpiredOffers(allCashbackOffers) {
     if (offer.end_date && todaysDate > offer.end_date ) {
       try {
         await updateExpiredOffer(offer.id)
-          console.log("OFFER END DATE:", offer.end_date, " IS BIGGER THAN TODAY:", todaysDate,  todaysDate > offer.end_date); 
-          console.log(typeof offer.end_date)
+          //console.log("OFFER END DATE:", offer.end_date, " IS BIGGER THAN TODAY:", todaysDate,  todaysDate > offer.end_date); 
+          //console.log(typeof offer.end_date)
       } catch (err) {
         console.error(err);
       }
