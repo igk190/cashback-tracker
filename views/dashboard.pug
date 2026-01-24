@@ -101,16 +101,14 @@ block content
                                 data-price=item.price 
                                 data-cashback_amount=item.cashback_amount
                                 data-store=item.store 
-                                data-conditions=item.conditions
                                 data-status=item.status
                                 data-purchase_date=item.purchase_date
+                                data-conditions=item.conditions
     
                                 onclick="testie(this)"
                                 
                                 ) Edit offer
 
-
-                        
 
                             .col-6
                                 if item.cashback_url
@@ -171,7 +169,7 @@ block content
                                 label.form-label(for="price") Price
                                 input.form-control(type="text" id="price" placeholder="4.50" name="price")
                             .col
-                                label.form-label(for="cashback-amount") Cashback
+                                label.form-label(for="cashback-amount") Cashback amount
                                 input.form-control(type="text" id="cashback-amount" placeholder="4.50" name="cashback_amount")
                         .row.mb-3 
                             .col 
@@ -203,42 +201,45 @@ block content
         }, 3000);
 
         const modal = document.getElementById("cashbackFormModal"); 
-
         modal.addEventListener("show.bs.modal", event => {
-            const btn = event.relatedTarget;
+        
+            const btn = event.relatedTarget; // data FROM btn inside here
+            
+            let offerID = btn.dataset.id;
 
             modal.querySelector("input[name='product_name']").value = btn.dataset.product_name;
-
-            modal.querySelector("input[name='cashback_url']").value = btn.dataset.cashback_url;
-            modal.querySelector("input[name='photo_url']").value = btn.dataset.photo_url;
-            modal.querySelector("input[name='start_date']").value = btn.dataset.start_date;
-            modal.querySelector("input[name='end_date']").value = btn.dataset.end_date;
-            if (btn.dataset.price) {
-                modal.querySelector("input[name='price']").value = btn.dataset.price;
-            }
-            if (btn.dataset.cashback_amount) {
-                modal.querySelector("input[name='cashback_amount']").value = btn.dataset.cashback_amount;
-            }
+            //modal.querySelector("input[name='status']").value = btn.dataset.status // ?? select value?
             
-            
-            modal.querySelector("input[name='store']").value = btn.dataset.store;
-            modal.querySelector("input[name='purchase_date']").value = btn.dataset.purchase_date;
-            modal.querySelector("input[name='conditions']").value = btn.dataset.conditions;
-            modal.querySelector("input[name='status']").value = btn.dataset.status;
-            
-            function testie(btn) {
-                btn.dataset.forEach(item => {
-                    console.log(item)
-                })
-            }
+            if (btn.dataset.cashback_url) modal.querySelector("input[name='cashback_url']").value = btn.dataset.cashback_url;
+            if (btn.dataset.photo_url) modal.querySelector("input[name='photo_url']").value = btn.dataset.photo_url;
+            if (btn.dataset.start_date) modal.querySelector("input[name='start_date']").value = btn.dataset.start_date;
+            if (btn.dataset.end_date) modal.querySelector("input[name='end_date']").value = btn.dataset.end_date;
+            if (btn.dataset.price) modal.querySelector("input[name='price']").value = btn.dataset.price;
+            if (btn.dataset.cashback_amount) modal.querySelector("input[name='cashback_amount']").value = btn.dataset.cashback_amount;
+            if (btn.dataset.store) modal.querySelector("input[name='store']").value = btn.dataset.store;
+            if (btn.dataset.purchase_date) modal.querySelector("input[name='purchase_date']").value = btn.dataset.purchase_date;
+            if (btn.dataset.conditions) modal.querySelector("input[name='conditions']").value = btn.dataset.conditions;
             
 
+
+
+
+
+        }) 
+        
+
+        function testie(btn) {
+            console.log("I was clicked");
+        }
+
+
             
-        })
+
+
 
 
         
-        const filterButtons = document.querySelectorAll('button[data-filter]');
+        // const filterButtons = document.querySelectorAll('button[data-filter]');
         
     
 //-  https://mdbootstrap.com/docs/standard/extended/horizontal-cards/
@@ -246,4 +247,4 @@ block content
 //- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toLocaleDateString
 //- HTML allows unlimited data-* attributes. Access through: btn.dataset.whwatever --> element.DATASET.NameOfYourAttr
 //- event.relatedTarget = what triggered the modal, btn we clicked on
-//- The Element.dataset property returns a DOMStringMap, an object-like collection of key-value pairs. https://gomakethings.com/managing-data-attributes-with-the-dataset-property-in-vanilla-javascript/ 
+//- The Element.dataset property returns a DOMStringMap, an *object-like collection of key-value pairs.* https://gomakethings.com/managing-data-attributes-with-the-dataset-property-in-vanilla-javascript/ El.dataset changes keys to camelCase!
