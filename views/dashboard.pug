@@ -105,8 +105,6 @@ block content
                                 data-purchase_date=item.purchase_date
                                 data-conditions=item.conditions
     
-         
-                                
                                 ) Edit offer
 
 
@@ -183,7 +181,7 @@ block content
                             input.form-control(type="text" id="conditions" placeholder="Mit Aktionssticker, EAN 12345678" name="conditions")
                         .mb-3 
                             label.form-label(for="status") Status * 
-                            select.custom-select.custom-select-sm.m-2(name="status")
+                            select.custom-select.custom-select-sm.m-2.status-dropdown(name="status")
                                 option Available
                                 option Purchased 
                                 option Uploaded
@@ -206,13 +204,21 @@ block content
         modal.addEventListener("show.bs.modal", event => { // if click + Add new offer, there's no info from any button click yet 
         
             const btn = event.relatedTarget; // data FROM btn inside here
-            
+
             if (btn.dataset.id) offerID = btn.dataset.id;
             if (btn.dataset.name) modal.querySelector("input[name='product_name']").value = btn.dataset.product_name;
             if (btn.dataset.cashback_url) modal.querySelector("input[name='cashback_url']").value = btn.dataset.cashback_url;
             if (btn.dataset.photo_url) modal.querySelector("input[name='photo_url']").value = btn.dataset.photo_url;
-            //modal.querySelector("input[name='status']").value = btn.dataset.status 
             
+            if (btn.dataset.status) { // https://stackoverflow.com/questions/39997579/pug-templates-how-to-mark-option-in-dropdown-list-as-selected & https://www.tutorialspoint.com/how-to-preselect-a-value-in-a-dropdown-list-of-items-in-html-forms 
+                const dropdownOptions = modal.querySelector('.status-dropdown')
+                dropdownOptions.value = btn.dataset.status; // Set select.value = target, browser selects matching option
+
+
+            }
+                
+
+
             // DATES
             if (btn.dataset.start_date) { // 2026-01-14T23:00:00.000Z
                 let date = new Date(btn.dataset.start_date);
@@ -245,9 +251,6 @@ block content
 
 
 
-
-        
-        // const filterButtons = document.querySelectorAll('button[data-filter]');
         
     
 //-  https://mdbootstrap.com/docs/standard/extended/horizontal-cards/
@@ -256,3 +259,6 @@ block content
 //- HTML allows unlimited data-* attributes. Access through: btn.dataset.whwatever --> element.DATASET.NameOfYourAttr
 //- event.relatedTarget = what triggered the modal, btn we clicked on
 //- The Element.dataset property returns a DOMStringMap, an *object-like collection of key-value pairs.* https://gomakethings.com/managing-data-attributes-with-the-dataset-property-in-vanilla-javascript/ El.dataset changes keys to camelCase!
+
+
+//- The <select> el controls which option is selected
