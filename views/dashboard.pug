@@ -206,19 +206,15 @@ block content
             const btn = event.relatedTarget; // data FROM btn inside here
 
             if (btn.dataset.id) offerID = btn.dataset.id;
-            if (btn.dataset.name) modal.querySelector("input[name='product_name']").value = btn.dataset.product_name;
+            if (btn.dataset.product_name) modal.querySelector("input[name='product_name']").value = btn.dataset.product_name;
             if (btn.dataset.cashback_url) modal.querySelector("input[name='cashback_url']").value = btn.dataset.cashback_url;
             if (btn.dataset.photo_url) modal.querySelector("input[name='photo_url']").value = btn.dataset.photo_url;
             
             if (btn.dataset.status) { // https://stackoverflow.com/questions/39997579/pug-templates-how-to-mark-option-in-dropdown-list-as-selected & https://www.tutorialspoint.com/how-to-preselect-a-value-in-a-dropdown-list-of-items-in-html-forms 
-                const dropdownOptions = modal.querySelector('.status-dropdown')
+                const dropdownOptions = modal.querySelector('.status-dropdown') // <select> el with the options
                 dropdownOptions.value = btn.dataset.status; // Set select.value = target, browser selects matching option
-
-
             }
                 
-
-
             // DATES
             if (btn.dataset.start_date) { // 2026-01-14T23:00:00.000Z
                 let date = new Date(btn.dataset.start_date);
