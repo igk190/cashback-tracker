@@ -145,7 +145,8 @@ block content
                     h1.modal-title.fs-5#cashbackFormTitle Add a cashback offer
                     button.btn-close(type="button" data-bs-dismiss="modal" aria-label="Close")
                 .modal-body.bg-secondary-subtle
-                    form(action="/cashback" method="POST" id="cashback-form")
+                    form(id="cashback-form")   
+                    
                         .mb-3 
                             label.form-label(for="product-name") Product name *
                             input.form-control(type="text" id="product-name" name="product_name" placeholder="Kinder Pengui" required) 
@@ -199,13 +200,21 @@ block content
         }, 3000);
 
         const modal = document.getElementById("cashbackFormModal"); 
-        let offerID = 0;
+        let offerID;       
 
         modal.addEventListener("show.bs.modal", event => { // if click + Add new offer, there's no info from any button click yet 
         
             const btn = event.relatedTarget; // data FROM btn inside here
 
-            if (btn.dataset.id) offerID = btn.dataset.id;
+            if (btn.dataset.id !== 0) {
+                modal.action="/updateOffer"
+                modal.method="PATCH"
+            } else {
+                modal.action="/cashback"
+                modal.method="POST"
+            }
+
+            if (btn.dataset.id !== 0) offerID = btn.dataset.id;
             if (btn.dataset.product_name) modal.querySelector("input[name='product_name']").value = btn.dataset.product_name;
             if (btn.dataset.cashback_url) modal.querySelector("input[name='cashback_url']").value = btn.dataset.cashback_url;
             if (btn.dataset.photo_url) modal.querySelector("input[name='photo_url']").value = btn.dataset.photo_url;
@@ -237,7 +246,14 @@ block content
             if (btn.dataset.store) modal.querySelector("input[name='store']").value = btn.dataset.store;
 
             if (btn.dataset.conditions) modal.querySelector("input[name='conditions']").value = btn.dataset.conditions;
-        }) 
+        })
+
+         modal.addEventListener("hidden.bs.modal", event => {
+            const inputFields = modal.getElementsByTagName('input');
+            for (let input of inputFields) {
+                input.value = "";
+            }
+         })
         
 
    
