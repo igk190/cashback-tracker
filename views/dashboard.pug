@@ -205,13 +205,15 @@ block content
         modal.addEventListener("show.bs.modal", event => { // if click + Add new offer, there's no info from any button click yet 
         
             const btn = event.relatedTarget; // data FROM btn inside here
+            const form = modal.querySelector("form");
 
-            if (btn.dataset.id !== 0) {
-                modal.action="/updateOffer"
-                modal.method="PATCH"
+            if (btn && btn.dataset.id) {
+                form.action="/updateOffer"
+                form.method="POST"
             } else {
-                modal.action="/cashback"
-                modal.method="POST"
+                form.action="/cashback"
+                console.log("post to /cashback")
+                form.method="POST"
             }
 
             if (btn.dataset.id !== 0) offerID = btn.dataset.id;
@@ -271,6 +273,6 @@ block content
 //- HTML allows unlimited data-* attributes. Access through: btn.dataset.whwatever --> element.DATASET.NameOfYourAttr
 //- event.relatedTarget = what triggered the modal, btn we clicked on
 //- The Element.dataset property returns a DOMStringMap, an *object-like collection of key-value pairs.* https://gomakethings.com/managing-data-attributes-with-the-dataset-property-in-vanilla-javascript/ El.dataset changes keys to camelCase!
-
+//- clear form inputs https://forum.blocsapp.com/t/empty-the-form-and-close-modal/26505/3 
 
 //- The <select> el controls which option is selected
