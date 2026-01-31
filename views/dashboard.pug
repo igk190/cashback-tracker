@@ -80,10 +80,29 @@ block content
                             p Store: #{item.store}
                         if item.start_date || item.end_date
                             .row
-                                .col-4
-                                    p From:
-                                .col-8 
-                                    p #{new Date(item.start_date).toLocaleDateString('en-US')} - #{new Date(item.end_date).toLocaleDateString('en-US')} 
+                                - const epoch = new Date("1970-01-01").toLocaleDateString('en-US')
+                                - const startDate = new Date(item.start_date).toLocaleDateString('en-US')
+                                - const endDate = new Date(item.end_date).toLocaleDateString('en-US')
+                                - console.log(startDate, endDate)
+                                if (startDate && endDate) 
+                                    if (startDate !== epoch && endDate !== epoch)
+                                        .col-3
+                                            p From:
+                                        .col-9 
+                                            p #{startDate} - #{endDate} 
+                                    else if (endDate === epoch)
+                                        .col-3
+                                            p From:
+                                        .col-9 
+                                            p #{startDate}
+                                    else if (startDate === epoch)
+                                        .col-3
+                                            p Until:
+                                        .col-9 
+                                            p #{endDate} 
+
+
+                                    
                         if item.purchase_date 
                             p Gekauft am: #{new Date(item.purchase_date).toLocaleDateString('en-US')}
                         .row
