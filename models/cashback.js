@@ -2,8 +2,44 @@ import pool from '../config/database.js';
 
 export async function addCashbackOffer(offer) {
   const conn = await pool.getConnection();
+  let result;
+  console.log("OFFER ID in cashback.js", offer.id)
   try {
-    const result = await conn.query(
+    if (offer.id) {
+      result = await conn.query(
+      `UPDATE cashback_offer 
+      SET
+      product_name = ?,
+      cashback_url = ?,
+      photo_url = ?, 
+      start_date = ?, 
+      end_date = ?, 
+      price = ?, 
+      cashback_amount = ?,
+      store = ?,
+      conditions = ?,
+      status = ?,
+      purchase_date = ?
+      
+      WHERE id = ?`,
+      [
+        offer.product_name,
+        offer.cashback_url || null,
+        offer.photo_url || null,
+        offer.start_date || null,
+        offer.end_date || null,
+        offer.price || null,
+        offer.cashback_amount || null,
+        offer.store || null,
+        offer.conditions || null,
+        offer.status,
+        offer.purchase_date || null,
+        offer.id
+      ]
+    );
+      
+     } else {
+    result = await conn.query(
       `INSERT INTO cashback_offer 
       (product_name, cashback_url, photo_url, start_date, end_date, price, cashback_amount, store, conditions, status, purchase_date, expired)
       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
@@ -22,6 +58,8 @@ export async function addCashbackOffer(offer) {
         offer.expired || 0
       ]
     );
+  }
+    console.log('result, ', result);
     return result;
   } finally {
     conn.release();

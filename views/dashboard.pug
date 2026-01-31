@@ -145,8 +145,8 @@ block content
                     h1.modal-title.fs-5#cashbackFormTitle Add a cashback offer
                     button.btn-close(type="button" data-bs-dismiss="modal" aria-label="Close")
                 .modal-body.bg-secondary-subtle
-                    form(id="cashback-form")   
-                    
+                    form(id="cashback-form" action="/cashback" method="POST")   
+                                      
                         .mb-3 
                             label.form-label(for="product-name") Product name *
                             input.form-control(type="text" id="product-name" name="product_name" placeholder="Kinder Pengui" required) 
@@ -206,17 +206,8 @@ block content
         
             const btn = event.relatedTarget; // data FROM btn inside here
             const form = modal.querySelector("form");
-
-            if (btn && btn.dataset.id) {
-                form.action="/updateOffer"
-                form.method="POST"
-            } else {
-                form.action="/cashback"
-                console.log("post to /cashback")
-                form.method="POST"
-            }
-
-            if (btn.dataset.id !== 0) offerID = btn.dataset.id;
+            
+            if (btn.dataset.id !== undefined || btn.dataset.id !== 0) offerID = btn.dataset.id;
             if (btn.dataset.product_name) modal.querySelector("input[name='product_name']").value = btn.dataset.product_name;
             if (btn.dataset.cashback_url) modal.querySelector("input[name='cashback_url']").value = btn.dataset.cashback_url;
             if (btn.dataset.photo_url) modal.querySelector("input[name='photo_url']").value = btn.dataset.photo_url;

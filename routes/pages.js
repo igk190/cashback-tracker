@@ -1,6 +1,8 @@
 import express from 'express';
+
 import { addCashbackOffer } from '../models/cashback.js';
 import { updateExpiredOffer } from '../models/updateExpired.js';
+
 import pool from '../config/database.js';
 import flash from 'connect-flash';
 
@@ -123,6 +125,9 @@ router.post('/cashback', async (req, res) => {
   }
   res.redirect('/dashboard'); // always redirect, no modal or prefill
 });
+
+
+
 
 export default router;
 
