@@ -131,8 +131,7 @@ block content
                             else if (daysDiffEnd === 0)
                                 span.badge.bg-danger.text-light Ends today
                             else if (daysDiffEnd > 0)
-                                span.badge.bg-warning.text-dark Ends on #{item.end_date.toLocaleDateString("de-DE", options)}
-                        
+                                span.badge.bg-warning.text-dark Ends on #{item.end_date.toLocaleDateString("de-DE", options)}                       
                 
 
 
@@ -180,6 +179,8 @@ block content
                         .mb-3 
                             label.form-label(for="conditions") Conditions 
                             input.form-control(type="text" id="conditions" placeholder="Mit Aktionssticker, EAN 12345678" name="conditions")
+                            input.form-control(type="hidden" id="id" name="id")
+
                         .mb-3 
                             label.form-label(for="status") Status * 
                             select.custom-select.custom-select-sm.m-2.status-dropdown(name="status")
@@ -206,8 +207,8 @@ block content
         
             const btn = event.relatedTarget; // data FROM btn inside here
             const form = modal.querySelector("form");
-            
-            if (btn.dataset.id !== undefined || btn.dataset.id !== 0) offerID = btn.dataset.id;
+            - console.log("button", btn)
+            if (btn.dataset.id) modal.querySelector("input[name='id']").value = btn.dataset.id;
             if (btn.dataset.product_name) modal.querySelector("input[name='product_name']").value = btn.dataset.product_name;
             if (btn.dataset.cashback_url) modal.querySelector("input[name='cashback_url']").value = btn.dataset.cashback_url;
             if (btn.dataset.photo_url) modal.querySelector("input[name='photo_url']").value = btn.dataset.photo_url;

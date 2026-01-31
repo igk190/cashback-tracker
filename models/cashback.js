@@ -3,7 +3,7 @@ import pool from '../config/database.js';
 export async function addCashbackOffer(offer) {
   const conn = await pool.getConnection();
   let result;
-  console.log("OFFER ID in cashback.js", offer.id)
+  console.log("OFFER ID in cashback.js", offer)
   try {
     if (offer.id) {
       result = await conn.query(
@@ -27,7 +27,7 @@ export async function addCashbackOffer(offer) {
         offer.cashback_url || null,
         offer.photo_url || null,
         offer.start_date || null,
-        offer.end_date || null,
+        offer.end_date || "",
         offer.price || null,
         offer.cashback_amount || null,
         offer.store || null,
@@ -65,3 +65,4 @@ export async function addCashbackOffer(offer) {
     conn.release();
   }
 }
+// null, NaN, undefined
