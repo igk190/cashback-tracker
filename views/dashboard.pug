@@ -33,7 +33,7 @@ block content
             .card
                 .card-body 
                     h3.card-title Total % received
-                    h4.card-subtitle.mb-2.text-body-secondary #{completedCount / teilgenommenCount * 100}%
+                    h4.card-subtitle.mb-2.text-body-secondary #{Math.round(completedCount / teilgenommenCount * 100)}%
                     p.card-text #{teilgenommenCount - completedCount} offers pending 
     
     .row.mb-3.mt-3
@@ -87,17 +87,17 @@ block content
                                 if (startDate && endDate) 
                                     if (startDate !== epoch && endDate !== epoch)
                                         .col-3
-                                            p From:
+                                            p From
                                         .col-9 
                                             p #{startDate} - #{endDate} 
                                     else if (endDate === epoch)
                                         .col-3
-                                            p From:
+                                            p From
                                         .col-9 
                                             p #{startDate}
                                     else if (startDate === epoch)
                                         .col-3
-                                            p Until:
+                                            p Until
                                         .col-9 
                                             p #{endDate} 
 
@@ -208,8 +208,9 @@ block content
                                 option Uploaded
                                 option Confirmed
                                 option Completed           
-                .modal-footer
-                    button.btn.btn-secondary(type="button" ) Close
+                .modal-footer.position-relative 
+                    button.btn.btn-danger.position-absolute.start-0.ml-3(type="button" ) Delete
+                    button.btn.btn-secondary(type="button" id="closeBtn") Close
                     button.btn.btn-primary(type="submit" form="cashback-form") Save cashback offer
 
 
@@ -223,7 +224,11 @@ block content
         let offerID;       
 
         modal.addEventListener("show.bs.modal", event => { // if click + Add new offer, there's no info from any button click yet 
-        
+            const closebtn = document.getElementById("closeBtn");
+            closebtn.addEventListener("click", () => {
+                modal.hide();
+            });
+
             const btn = event.relatedTarget; // data FROM btn inside here
             const form = modal.querySelector("form");
             - console.log("button", btn)
