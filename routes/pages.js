@@ -117,6 +117,7 @@ router.get('/dashboard', async (req, res) => {
 
 // also updates OR deletes products if ID exists
 router.post('/cashback', async (req, res) => {
+  console.log("METHOD", req.body._method)
   try {
     await addCashbackOffer(req.body);
     req.flash('success_msg', 'Cashback offer added!');

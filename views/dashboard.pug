@@ -53,7 +53,7 @@ block content
             a.pl-0.expired(href='/dashboard?status=expired') View expired offers
         .col-2
         .col
-            button.btn.btn-secondary.m-2.text-right(type="button", data-bs-toggle="modal", data-bs-target="#cashbackFormModal") + Add new offer
+            button.btn.btn-secondary.m-2.text-right(type="button", id="addOfferBtn" data-bs-toggle="modal", data-bs-target="#cashbackFormModal") + Add new offer
          
     
     - const cashbackOffers = filteredOffers || allCashbackOffers || [] // evaluated LTR
@@ -199,7 +199,7 @@ block content
                             label.form-label(for="conditions") Conditions 
                             input.form-control(type="text" id="conditions" placeholder="Mit Aktionssticker, EAN 12345678" name="conditions")
                             input.form-control(type="hidden" id="id" name="id")
-                            input.form-control(type="hidden" id="_method" name="_method")
+                            input.form-control(type="hidden" id="_method" name="_method" value="DELETE")
 
                         .mb-3 
                             label.form-label(for="status") Status * 
@@ -210,7 +210,9 @@ block content
                                 option Confirmed
                                 option Completed           
                 .modal-footer.position-relative 
-                    button.btn.btn-danger.position-absolute.start-0.ml-3(type="submit" id="deleteBtn" form="cashback-form") Delete
+                    if (addNewClicked !== true)
+                        - console.log('blablabl')
+                        button.btn.btn-danger.position-absolute.start-0.ml-3(type="submit" id="deleteBtn" form="cashback-form") Delete
                     button.btn.btn-secondary(type="button" data-bs-dismiss="modal") Close
                     button.btn.btn-primary(type="submit" form="cashback-form") Save cashback offer
 
@@ -228,7 +230,6 @@ block content
 
             const btn = event.relatedTarget; // data FROM btn inside here
             const form = modal.querySelector("form");
-            - console.log("button", btn)
             if (btn.dataset.id) modal.querySelector("input[name='id']").value = btn.dataset.id;
             if (btn.dataset.product_name) modal.querySelector("input[name='product_name']").value = btn.dataset.product_name;
             if (btn.dataset.cashback_url) modal.querySelector("input[name='cashback_url']").value = btn.dataset.cashback_url;
@@ -264,25 +265,28 @@ block content
         })
 
         const delBtn = document.getElementById("deleteBtn"); 
-        const method = modal.querySelector('_method');
+        const method = modal.querySelector('#_method');
+        const addNewBtn = document.getElementById('addOfferBtn');
+        let addNewClicked = false;
 
         delBtn.addEventListener("click", event => {
             const method = modal.querySelector('#_method');
             method.value = "DELETE";
-            console.log("clicked del")
          })
+        addNewBtn.addEventListener("click", event => {
+            addNewClicked = true;
+        })
 
          modal.addEventListener("hidden.bs.modal", event => {
             const inputFields = modal.getElementsByTagName('input');
             for (let input of inputFields) {
                 input.value = "";
-                method.value = "_method";
             }
+            addNewClicked = false;
+            method.value = "_method";
          })
 
-         function testert() {
-            console.log("clicked ")
-         }
+  
         
 
    
@@ -303,3 +307,4 @@ block content
 //- clear form inputs https://forum.blocsapp.com/t/empty-the-form-and-close-modal/26505/3 
 
 //- The <select> el controls which option is selected
+//- querySelector looks for tag. with # as id
