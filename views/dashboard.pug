@@ -221,18 +221,23 @@ block content
             if (msg) msg.style.display = 'none';
         }, 3000);
 
-        window.addEventListener('load', (event) => {
-            
-        })
-
         const modal = document.getElementById("cashbackFormModal"); 
-        let offerID;       
-
+        let offerID;  
+        const delBtn = document.getElementById("deleteBtn"); 
+ 
         modal.addEventListener("show.bs.modal", event => { // if click + Add new offer, there's no info from any button click yet 
 
             const btn = event.relatedTarget; // data FROM btn inside here
             const form = modal.querySelector("form");
-            if (btn.dataset.id) modal.querySelector("input[name='id']").value = btn.dataset.id;
+
+            delBtn.classList.remove("visible");
+            delBtn.classList.add("invisible");
+
+            if (btn.dataset.id) {
+                modal.querySelector("input[name='id']").value = btn.dataset.id;
+                delBtn.classList.remove("invisible");  // IF theres ID, we're doing EDIT & must show delete
+                delBtn.classList.add("visible");  
+            }
             if (btn.dataset.product_name) modal.querySelector("input[name='product_name']").value = btn.dataset.product_name;
             if (btn.dataset.cashback_url) modal.querySelector("input[name='cashback_url']").value = btn.dataset.cashback_url;
             if (btn.dataset.photo_url) modal.querySelector("input[name='photo_url']").value = btn.dataset.photo_url;
@@ -266,24 +271,18 @@ block content
             if (btn.dataset.conditions) modal.querySelector("input[name='conditions']").value = btn.dataset.conditions;
         })
 
-        const delBtn = document.getElementById("deleteBtn"); 
         const method = modal.querySelector('#_method');
 
-        
         delBtn.addEventListener("click", event => {
-            const method = modal.querySelector('#_method');
             method.value = "DELETE";
          })
- 
-
-         modal.addEventListener("hidden.bs.modal", event => {
+        
+        modal.addEventListener("hidden.bs.modal", event => {
             const inputFields = modal.getElementsByTagName('input');
             for (let input of inputFields) {
                 input.value = "";
             }
-            addNewClicked = false;
             method.value = "_method";
-            delBtn.classList.remove("visible");
          })
 
   
