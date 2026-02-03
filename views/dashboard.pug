@@ -210,9 +210,7 @@ block content
                                 option Confirmed
                                 option Completed           
                 .modal-footer.position-relative 
-                    if (addNewClicked !== true)
-                        - console.log('blablabl')
-                        button.btn.btn-danger.position-absolute.start-0.ml-3(type="submit" id="deleteBtn" form="cashback-form") Delete
+                    button.btn.btn-danger.position-absolute.start-0.ml-3(type="submit" id="deleteBtn" form="cashback-form") Delete
                     button.btn.btn-secondary(type="button" data-bs-dismiss="modal") Close
                     button.btn.btn-primary(type="submit" form="cashback-form") Save cashback offer
 
@@ -222,6 +220,10 @@ block content
             const msg = document.getElementById("flash-msg");
             if (msg) msg.style.display = 'none';
         }, 3000);
+
+        window.addEventListener('load', (event) => {
+            
+        })
 
         const modal = document.getElementById("cashbackFormModal"); 
         let offerID;       
@@ -266,16 +268,13 @@ block content
 
         const delBtn = document.getElementById("deleteBtn"); 
         const method = modal.querySelector('#_method');
-        const addNewBtn = document.getElementById('addOfferBtn');
-        let addNewClicked = false;
 
+        
         delBtn.addEventListener("click", event => {
             const method = modal.querySelector('#_method');
             method.value = "DELETE";
          })
-        addNewBtn.addEventListener("click", event => {
-            addNewClicked = true;
-        })
+ 
 
          modal.addEventListener("hidden.bs.modal", event => {
             const inputFields = modal.getElementsByTagName('input');
@@ -284,6 +283,7 @@ block content
             }
             addNewClicked = false;
             method.value = "_method";
+            delBtn.classList.remove("visible");
          })
 
   
