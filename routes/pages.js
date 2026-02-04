@@ -2,6 +2,7 @@ import express from 'express';
 
 import { addCashbackOffer } from '../models/cashback.js';
 import { updateExpiredOffer } from '../models/updateExpired.js';
+import { updateOffer } from '../models/updateOffer.js';
 
 import pool from '../config/database.js';
 import flash from 'connect-flash';
@@ -115,17 +116,29 @@ router.get('/dashboard', async (req, res) => {
 });
 
 
-// also updates OR deletes products if ID exists
+// UPDATE, DELETE, ADD NEW
 router.post('/cashback', async (req, res) => {
-  console.log("METHOD", req.body._method)
+
+  const method = req.body._method
+  
   try {
-    await addCashbackOffer(req.body);
-    req.flash('success_msg', 'Cashback offer added!');
+    if (req.body.id !== '' && method === "DELETE") {             // DELETE
+      /// send to delete offer
+      req.flash('success_msg', 'Cashback offer deleted!'); 
+    } else if (req.body.id !== '') {                            // UPDATE
+      await updateOffer(req.body)
+      req.flash('success_msg', 'Cashback offer added!');        // ADD NEW
+    } else {
+      await addCashbackOffer(req.body);
+      req.flash('success_msg', 'Cashback offer added!');
+    }
+
+    
   } catch (err) {
     console.error(err);
-    req.flash('error_msg', 'Error adding cashback offer.');
+    req.flash('error_msg', 'Error updating, adding or deleting the cashback offer.');
   }
-  res.redirect('/dashboard'); // always redirect, no modal or prefill
+  res.redirect('/dashboard'); // always redirect
 });
 
 
