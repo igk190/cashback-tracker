@@ -122,10 +122,10 @@ router.post('/cashback', async (req, res) => {
   const method = req.body._method
   
   try {
-    if (req.body.id !== '' && method === "DELETE") {             // DELETE
+    if (req.body.id > 0 && method === "DELETE") {             // DELETE
       /// send to delete offer
       req.flash('success_msg', 'Cashback offer deleted!'); 
-    } else if (req.body.id !== '') {                            // UPDATE
+    } else if (req.body.id > 0) {                            // UPDATE
       await updateOffer(req.body)
       req.flash('success_msg', 'Cashback offer added!');        // ADD NEW
     } else {
