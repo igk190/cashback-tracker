@@ -3,6 +3,7 @@ import express from 'express';
 import { addCashbackOffer } from '../models/cashback.js';
 import { updateExpiredOffer } from '../models/updateExpired.js';
 import { updateOffer } from '../models/updateOffer.js';
+import { deleteOffer } from '../models/deleteOffer.js';
 
 import pool from '../config/database.js';
 import flash from 'connect-flash';
@@ -123,12 +124,12 @@ router.post('/cashback', async (req, res) => {
   
   try {
     if (req.body.id > 0 && method === "DELETE") {             // DELETE
-      /// send to delete offer
+      await deleteOffer(req.body);
       req.flash('success_msg', 'Cashback offer deleted!'); 
     } else if (req.body.id > 0) {                            // UPDATE
       await updateOffer(req.body)
-      req.flash('success_msg', 'Cashback offer added!');        // ADD NEW
-    } else {
+      req.flash('success_msg', 'Cashback offer added!');        
+    } else {                                                // ADD NEW
       await addCashbackOffer(req.body);
       req.flash('success_msg', 'Cashback offer added!');
     }
