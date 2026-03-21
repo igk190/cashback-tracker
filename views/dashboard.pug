@@ -39,16 +39,21 @@ block content
     .row.mb-3.mt-3
         .col.d-flex.justify-content-between.align-items-center
             .btn-group(role="group" aria-label="Filtering buttons" data-toggle="buttons")
-                button.btn.btn-info.m-1(type="button" data-filter="Available") 
-                    a.filter-btn(href='/dashboard?status=Available') Available  
-                button.btn.btn-primary.m-1(type="button" data-filter="Purchased")
-                    a.filter-btn(href='/dashboard?status=Purchased') Purchased   
-                button.btn.btn-warning.m-1(type="button" data-filter="Uploaded")
+                button.btn.btn-info.m-1.status-btn(type="button" data-filter="Available") 
+                    a.filter-btn(href='/dashboard?status=Available') Available
+                    span.tooltip-status-btn Add offers you want to hunt here
+                button.btn.btn-primary.m-1.status-btn(type="button" data-filter="Purchased")
+                    a.filter-btn(href='/dashboard?status=Purchased') Purchased 
+                    span.tooltip-status-btn Offers you purchased, but haven't yet uploaded.
+                button.btn.btn-warning.m-1.status-btn(type="button" data-filter="Uploaded")
                     a.filter-btn(href='/dashboard?status=Uploaded') Uploaded 
-                button.btn.btn-dark.m-1(type="button" data-filter="Confirmed")
+                    span.tooltip-status-btn All offers for which you already uploaded the receipt.
+                button.btn.btn-dark.m-1.status-btn(type="button" data-filter="Confirmed")
                     a.filter-btn(href='/dashboard?status=Confirmed') Confirmed 
-                button.btn.btn-success.m-1(type="button" data-filter="Completed")  
+                    span.tooltip-status-btn Products for which your cashback is confirmed and on the way 👀
+                button.btn.btn-success.m-1.status-btn(type="button" data-filter="Completed")  
                     a.filter-btn(href='/dashboard?status=Completed' ) Completed 
+                    span.tooltip-status-btn The cashback money has landed in your account 💸
         .col-2.d-flex.justify-content-between.align-items-center
             a.pl-0.expired(href='/dashboard?status=expired') View expired offers
         .col-2

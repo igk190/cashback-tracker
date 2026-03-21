@@ -13,6 +13,24 @@ html
         color: black;
         font-size: 10px;
       }
+      .tooltip-status-btn {
+        visibility: hidden;
+        width: 120px;
+        font-size: 10px;
+        background-color: black;
+        color: #fff;
+        text-align: center;
+        border-radius: 6px;
+        padding: 5px 0;
+        position: absolute;
+        z-index: 1;
+        bottom: 100%;
+        left: 65%;
+        margin-left: -65px;
+      }
+      .status-btn:hover .tooltip-status-btn {
+        visibility: visible;
+      }
     block styles
   body
     include ../partials/header

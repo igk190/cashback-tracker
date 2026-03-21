@@ -8,3 +8,5 @@ Track and manage your cashback offers in one place. An intuitive web app to repl
 <img src="images/Add product modal.png" alt="Add product modal" width="80%" height="80%" />
 
 
+Run the project with npm run dev
+Start the db with mysql.server start 
