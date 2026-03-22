@@ -8,13 +8,13 @@ block content
     
     h1 Statistics
     .row.g-2    
-        .col-md-3
+        .col-6.col-sm-3
             .card
                 .card-body 
-                    h3.card-title Cashback completed
-                    h4.card-subtitle.mb-2.text-body-secondary #{completedSum} €
-                    p.card-text #{completedCount}/#{teilgenommenCount} offers completed 
-        .col-md-3
+                    h3.card-title Available offers
+                    h4.card-subtitle.mb-2.text-body-secondary #{availableSum} €
+                    p.card-text #{availableCount} more offers available!
+        .col-6.col-sm-3
             .card
                 .card-body 
                     h3.card-title Cashback confirmed
@@ -23,13 +23,13 @@ block content
                         p.card-text #{confirmedCount} offer confirmed
                     else 
                         p.card-text #{confirmedCount} offers confirmed
-        .col-md-3
+        .col-6.col-sm-3
             .card
                 .card-body 
-                    h3.card-title Available offers
-                    h4.card-subtitle.mb-2.text-body-secondary #{availableSum} €
-                    p.card-text #{availableCount} more offers available!
-        .col-md-3
+                    h3.card-title Cashback completed
+                    h4.card-subtitle.mb-2.text-body-secondary #{completedSum} €
+                    p.card-text #{completedCount}/#{teilgenommenCount} offers completed 
+        .col-6.col-sm-3
             .card
                 .card-body 
                     h3.card-title Total % received
@@ -70,96 +70,92 @@ block content
     else
         .row.m-2#offers-container
             each item in cashbackOffers
-                .col.md-4
+                .col-md-6.col-lg-3.col-sm-6
                     .card.mb-3.p-3(data-status=item.status)
-                        .row
-                            .col-8
-                                h5= item.product_name
-                            .col-4
-                                span.badge.rounded-pill.text-bg-secondary #{item.status || 'N/A'}
-                        if item.photo_url
-                            img(src=item.photo_url, width="200", style="max-height:150px; object-fit:cover;")
-                        if item.cashback_amount
-                            p Cashback: #{item.cashback_amount} €
-                        if item.store 
-                            p Store: #{item.store}
-                        if item.start_date || item.end_date
+                        img.card-img-top(src=item.photo_url)
+                        .card-body
                             .row
-                                - const epoch = new Date("1970-01-01").toLocaleDateString('en-US')
-                                - const startDate = new Date(item.start_date).toLocaleDateString('en-US')
-                                - const endDate = new Date(item.end_date).toLocaleDateString('en-US')
-                                - console.log(startDate, endDate)
-                                if (startDate && endDate) 
-                                    if (startDate !== epoch && endDate !== epoch)
-                                        .col-3
-                                            p From
-                                        .col-9 
-                                            p #{startDate} - #{endDate} 
-                                    else if (endDate === epoch)
-                                        .col-3
-                                            p From
-                                        .col-9 
-                                            p #{startDate}
-                                    else if (startDate === epoch)
-                                        .col-3
-                                            p Until
-                                        .col-9 
-                                            p #{endDate} 
+                                .col-8
+                                    h5.card_title= item.product_name
+                                .col-4
+                                    span.badge.rounded-pill.text-bg-secondary #{item.status || 'N/A'}
+                            if item.cashback_amount
+                                p Cashback: #{item.cashback_amount} €
+                            if item.store 
+                                p 📍 #{item.store}
+                            if item.start_date || item.end_date
+                                .row
+                                    - const epoch = new Date("1970-01-01").toLocaleDateString('en-US')
+                                    - const startDate = new Date(item.start_date).toLocaleDateString('en-US')
+                                    - const endDate = new Date(item.end_date).toLocaleDateString('en-US')
+                                    - console.log(startDate, endDate)
+                                    if (startDate && endDate) 
+                                        if (startDate !== epoch && endDate !== epoch)
+                                            .col-2
+                                                p 🗓️
+                                            .col-10 
+                                                p #{startDate} - #{endDate} 
+                                        else if (endDate === epoch)
+                                            .col-3
+                                                p From
+                                            .col-9 
+                                                p #{startDate}
+                                        else if (startDate === epoch)
+                                            .col-3
+                                                p Until
+                                            .col-9 
+                                                p #{endDate} 
+
+                            if item.purchase_date 
+                                p Gekauft am: #{new Date(item.purchase_date).toLocaleDateString('en-US')}
+                            .row
+                                .col-6 
+                                    button.btn.btn-outline-primary.btn-sm.mb-3(type="button"
+
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#cashbackFormModal"
+                                    data-id=item.id
+                                    data-product_name=item.product_name
+                                    data-cashback_url=item.cashback_url 
+                                    data-photo_url=item.photo_url
+                                    data-start_date=item.start_date
+                                    data-end_date=item.end_date 
+                                    data-price=item.price 
+                                    data-cashback_amount=item.cashback_amount
+                                    data-store=item.store 
+                                    data-status=item.status
+                                    data-purchase_date=item.purchase_date
+                                    data-conditions=item.conditions
+                                    ) Edit offer
+
+                                .col-6
+                                    if item.cashback_url
+                                        a(href=item.cashback_url, target="_blank")
+                                            p.text-center(style="font-size: 0.8rem") Visit offer 
+                                                i.bi.bi-box-arrow-up-right.mb-2(style="font-size: 0.8rem; color: cornflowerblue;")
+
+                            - const daterightnow = new Date();
+                            - const options = { weekday: "short", month: "short", day: "numeric"}
+                            - let timeDiffStart = item.start_date - daterightnow
+                            - let daysDiffStart = Math.ceil(timeDiffStart / (1000 * 60 * 60 * 24))
+                            - let timeDiffEnd = item.end_date - daterightnow
+                            - let daysDiffEnd = Math.ceil(timeDiffEnd / (1000 * 60 * 60 * 24))
+
+                            if (item.start_date || item.end_date) 
+                                if (daysDiffStart > 0 && daysDiffStart <= 3)
+                                    span.badge.bg-info.text-dark Starts in #{daysDiffStart === 1 ? "1 day" : daysDiffStart} days
+                                else if (daysDiffStart === 0)
+                                    span.badge.bg-info.text-dark Started today 🗓️
+                                else if (daysDiffEnd > 0 && daysDiffEnd <= 3)
+                                    span.badge.bg-danger.text-light Ends in #{daysDiffEnd === 1 ? "1" : daysDiffEnd } days
+                                else if (daysDiffEnd === 0)
+                                    span.badge.bg-danger.text-light Ends today
+                                else if (daysDiffEnd > 0)
+                                    span.badge.bg-warning.text-dark Ends on #{item.end_date.toLocaleDateString("de-DE", options)}                       
+                    
 
 
-                                    
-                        if item.purchase_date 
-                            p Gekauft am: #{new Date(item.purchase_date).toLocaleDateString('en-US')}
-                        .row
-                            .col-6 
-                                button.btn.btn-outline-primary.btn-sm.mb-3(type="button"
-                                
-                                data-bs-toggle="modal"
-                                data-bs-target="#cashbackFormModal"
-                                data-id=item.id
-                                data-product_name=item.product_name
-                                data-cashback_url=item.cashback_url 
-                                data-photo_url=item.photo_url
-                                data-start_date=item.start_date
-                                data-end_date=item.end_date 
-                                data-price=item.price 
-                                data-cashback_amount=item.cashback_amount
-                                data-store=item.store 
-                                data-status=item.status
-                                data-purchase_date=item.purchase_date
-                                data-conditions=item.conditions
-    
-                                ) Edit offer
-
-
-                            .col-6
-                                if item.cashback_url
-                                    a(href=item.cashback_url, target="_blank")
-                                        p.text-center(style="font-size: 0.8rem") Visit offer 
-                                            i.bi.bi-box-arrow-up-right.mb-2(style="font-size: 0.8rem; color: cornflowerblue;")
-
-                        - const daterightnow = new Date();
-                        - const options = { weekday: "short", month: "short", day: "numeric"}
-                        - let timeDiffStart = item.start_date - daterightnow
-                        - let daysDiffStart = Math.ceil(timeDiffStart / (1000 * 60 * 60 * 24))
-                        - let timeDiffEnd = item.end_date - daterightnow
-                        - let daysDiffEnd = Math.ceil(timeDiffEnd / (1000 * 60 * 60 * 24))
-
-                        if (item.start_date || item.end_date) 
-                            if (daysDiffStart > 0 && daysDiffStart <= 3)
-                                span.badge.bg-info.text-dark Starts in #{daysDiffStart === 1 ? "1 day" : daysDiffStart} days
-                            else if (daysDiffStart === 0)
-                                span.badge.bg-info.text-dark Started today 🗓️
-                            else if (daysDiffEnd > 0 && daysDiffEnd <= 3)
-                                span.badge.bg-danger.text-light Ends in #{daysDiffEnd === 1 ? "1" : daysDiffEnd } days
-                            else if (daysDiffEnd === 0)
-                                span.badge.bg-danger.text-light Ends today
-                            else if (daysDiffEnd > 0)
-                                span.badge.bg-warning.text-dark Ends on #{item.end_date.toLocaleDateString("de-DE", options)}                       
-                
-
-
-    
+        
 
     #cashbackFormModal.modal.fade(tabindex="-1" aria-labelledby="cashbackFormModal" aria-hidden="true")     
         .modal-dialog
